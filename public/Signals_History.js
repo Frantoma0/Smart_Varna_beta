@@ -95,6 +95,49 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         map.addLayer(clusterMarkers);
+
+        map.on('popupopen', function (e) {
+            const popupNode = e.popup.getElement();
+            if (!popupNode) return;
+        
+            const detailsBtn = popupNode.querySelector('.popup-details-btn');
+            if (detailsBtn) {
+                const handleClick = () => {
+                    const signalId = detailsBtn.getAttribute('data-signal-id');
+                    if (!signalId) return;
+        
+                    const signalCard = document.querySelector(`.signal-card[data-id="${signalId}"]`);
+                    if (signalCard) {
+                        map.closePopup(); // Затваряме прозореца на картата
+        
+                        // Превъртаме до картата на сигнала с плавна анимация
+                        signalCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // Маркираме картата, за да се открои
+                        signalCard.classList.add('card-selected');
+                        
+                        // По желание, отваряме детайлите, ако са скрити
+                        const details = signalCard.querySelector('.signal-details');
+                        if (details && details.classList.contains('hidden')) {
+                            details.classList.remove('hidden');
+                            signalCard.querySelector('svg.transition-transform')?.classList.add('rotate-180');
+                        }
+        
+                        // Премахваме маркирането след няколко секунди
+                        setTimeout(() => {
+                            signalCard.classList.remove('card-selected');
+                        }, 2500);
+                    }
+                };
+                
+                detailsBtn.addEventListener('click', handleClick);
+        
+                // Изчистваме слушателя, когато прозорецът се затвори, за да избегнем дублиране
+                e.popup.on('remove', () => {
+                    detailsBtn.removeEventListener('click', handleClick);
+                });
+            }
+        });
         
         // 5. Инициализираме топлинния слой с правилните настройки за началния мащаб
          const heatLayer = L.heatLayer([], {
@@ -181,6 +224,11 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                             <div style="font-size: 13px; color: #6b7280; margin-bottom: 6px;">
                                 <span style="font-weight: 500;">Адрес:</span> ${signal.adress || 'Няма адрес'}
+                            </div>
+                            <div style="margin-top: 12px; border-top: 1px solid #f3f4f6; padding-top: 10px; text-align: center;">
+                                <button class="popup-details-btn" data-signal-id="${signal.tracking_code}" style="background-color: #263A8D; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; width: 100%;">
+                                    Преглед на сигнала
+                                </button>
                             </div>
                         </div>
                     `, { maxWidth: 300, className: 'custom-popup' });
@@ -502,8 +550,28 @@ document.addEventListener('DOMContentLoaded', function () {
             marker.options.weight = signal.weight;
             if (signal.tracking_code) markersMap[signal.tracking_code] = marker;
 
-            marker.bindPopup(`<div style="min-width: 220px; max-width: 280px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.4;"><div style="font-weight: 600; font-size: 16px; margin-bottom: 10px; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px;">${synthesizedTitle} <br>Сигнал #${signal.tracking_code || 'N/A'}</div><div style="margin-bottom: 12px; color: #374151; font-size: 14px;">${signal.description || 'Няма описание'}</div><div style="font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;"><span style="color: #6b7280; font-weight: 500;">Спешност:</span><span style="background-color: ${severityInfo.color}; color: white; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: 500;">${severityInfo.text}</span></div><div style="font-size: 13px; color: #6b7280; margin-bottom: 6px;"><span style="font-weight: 500;">Адрес:</span> ${signal.adress || 'Няма адрес'}</div></div>`, { maxWidth: 300, className: 'custom-popup' });
-            
+            marker.bindPopup(`
+                <div style="min-width: 220px; max-width: 280px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.4;">
+                    <div style="font-weight: 600; font-size: 16px; margin-bottom: 10px; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px;">
+                        ${synthesizedTitle} <br>Сигнал #${signal.tracking_code || 'N/A'}
+                    </div>
+                    <div style="margin-bottom: 12px; color: #374151; font-size: 14px;">
+                        ${signal.description || 'Няма описание'}
+                    </div>
+                    <div style="font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                        <span style="color: #6b7280; font-weight: 500;">Спешност:</span>
+                        <span style="background-color: ${severityInfo.color}; color: white; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: 500; text-shadow: 0 1px 1px rgba(0,0,0,0.2);">${severityInfo.text}</span>
+                    </div>
+                    <div style="font-size: 13px; color: #6b7280; margin-bottom: 6px;">
+                        <span style="font-weight: 500;">Адрес:</span> ${signal.adress || 'Няма адрес'}
+                    </div>
+                    <div style="margin-top: 12px; border-top: 1px solid #f3f4f6; padding-top: 10px; text-align: center;">
+                        <button class="popup-details-btn" data-signal-id="${signal.tracking_code}" style="background-color: #263A8D; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; width: 100%;">
+                            Преглед на сигнала
+                        </button>
+                    </div>
+                </div>
+            `, { maxWidth: 300, className: 'custom-popup' });
             return marker; // ВРЪЩА МАРКЕРА
         }
         
@@ -539,10 +607,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                     <div style="font-size: 13px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
                         <span style="color: #6b7280; font-weight: 500;">Спешност:</span>
-                        <span style="background-color: ${severityInfo.color}; color: white; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: 500;">${severityInfo.text}</span>
+                        <span style="background-color: ${severityInfo.color}; color: white; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: 500; text-shadow: 0 1px 1px rgba(0,0,0,0.2);">${severityInfo.text}</span>
                     </div>
                     <div style="font-size: 13px; color: #6b7280; margin-bottom: 6px;">
                         <span style="font-weight: 500;">Адрес:</span> ${signal.adress || 'Няма адрес'}
+                    </div>
+                    <div style="margin-top: 12px; border-top: 1px solid #f3f4f6; padding-top: 10px; text-align: center;">
+                        <button class="popup-details-btn" data-signal-id="${signal.tracking_code}" style="background-color: #263A8D; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; width: 100%;">
+                            Преглед на сигнала
+                        </button>
                     </div>
                 </div>
             `, { maxWidth: 300, className: 'custom-popup' });
