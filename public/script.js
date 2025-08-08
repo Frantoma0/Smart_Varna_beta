@@ -175,21 +175,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function showStep(stepNumber) {
-    if (stepNumber === 1) {
-        step1.classList.remove('hidden');
-        step2.classList.add('hidden');
-        backToStep1Btn.style.visibility = 'hidden'; // Използваме visibility
-        titleSpacer.style.visibility = 'hidden';   // Използваме visibility
-        stepIndicator1.classList.add('active');
-        stepIndicator2.classList.remove('active');
-    } else if (stepNumber === 2) {
-        step1.classList.add('hidden');
-        step2.classList.remove('hidden');
-        backToStep1Btn.style.visibility = 'visible'; // Използваме visibility
-        titleSpacer.style.visibility = 'visible';  // Използваме visibility
-        stepIndicator1.classList.remove('active');
-        stepIndicator2.classList.add('active');
-    }
+        if (stepNumber === 1) {
+            step1.classList.remove('hidden');
+            step2.classList.add('hidden');
+            backToStep1Btn.style.visibility = 'hidden'; // Използваме visibility
+            titleSpacer.style.visibility = 'hidden';   // Използваме visibility
+            stepIndicator1.classList.add('active');
+            stepIndicator2.classList.remove('active');
+        } else if (stepNumber === 2) {
+            step1.classList.add('hidden');
+            step2.classList.remove('hidden');
+            backToStep1Btn.style.visibility = 'visible'; // Използваме visibility
+            titleSpacer.style.visibility = 'visible';  // Използваме visibility
+            stepIndicator1.classList.remove('active');
+            stepIndicator2.classList.add('active');
+        }
     }
 
     function panToLocationAndProceed(lat, lng, address, description, institution) {
@@ -548,6 +548,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('signalDescriptionSummary').textContent = signalData.description;
             document.getElementById('signalInstitutionSummary').textContent = signalData.institution;
             successModalOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; 
     
             const lat = signalData.latitude;
             const lng = signalData.longitude;
@@ -583,6 +584,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Reset form and modal
     function resetFormAndModal() {
         successModalOverlay.classList.add('hidden');
+        document.body.style.overflow = '';
         signalForm.reset();
         resetPhotoUploadArea();
         showStep(1);
@@ -849,5 +851,3 @@ document.addEventListener('DOMContentLoaded', function () {
 
     populateInstitutions();
 });
-
-
