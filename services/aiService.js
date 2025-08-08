@@ -14,7 +14,7 @@ const AI_TIER_CLASSIFICATION_PROMPT = readFileSync(join(__dirname, '..', 'prompt
 
 async function generateSignalTitleAI(description) {
     const payload = {
-        model: 'gpt-4o',
+        model: 'gpt-5',
         messages: [
             { role: 'system', content: AI_TITLE_PROMPT },
             { role: 'user', content: description }
@@ -47,7 +47,7 @@ async function findSimilarDescriptionInList(newDescription, existingSignals) {
     const userContent = `Ново описание: "${newDescription}"\n\nСъществуващи описания:\n${existingDescriptionsText}`;
 
     const payload = {
-        model: 'gpt-4o',
+        model: 'gpt-5',
         messages: [ { role: 'system', content: AI_BATCH_SIMILARITY_PROMPT }, { role: 'user', content: userContent } ],
         max_tokens: 40, // Малко повече, за да хванем UUID
         temperature: 0.0
@@ -79,7 +79,7 @@ async function findSimilarDescriptionInList(newDescription, existingSignals) {
  */
 async function getTieredWeightAI(description) {
     const payload = {
-        model: 'gpt-4o',
+        model: 'gpt-5',
         // Тази настройка е силно препоръчителна - гарантира, че отговорът ВИНАГИ ще е валиден JSON
         response_format: { "type": "json_object" }, 
         messages: [
