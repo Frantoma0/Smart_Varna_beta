@@ -46,7 +46,7 @@
 
     <main class="main-content-signals">
         <!-- Лява колона - Списък със сигнали -->
-        <div class="content-column">
+        <div id="signals-list-column" class="content-column">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="map-title">Подадени сигнали</h1>
             </div>
@@ -150,12 +150,13 @@
     <div id="photo-modal" class="modal-overlay hidden">
       <div class="modal-content relative">
         <button id="close-photo-modal" class="modal-close-button">×</button>
-        <img id="modal-photo-img" src="" alt="Снимка към сигнала" style="max-width:90vw; max-height:80vh; display:block; margin:auto;">
+        <img id="modal-photo-img" src="" alt="Снимка към сигнала">
       </div>
     </div>
 
+    <div class="floating-actions">
+
     <script src="Signals_History.js"></script>
 </body>
-
 
 </html>
