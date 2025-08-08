@@ -813,7 +813,7 @@ body {
         padding: 15px 20px;
     }
 
-    .nav-menu {
+        .nav-menu {
         display: none;
         flex-direction: column;
         width: 160px;
@@ -824,7 +824,7 @@ body {
         padding: 20px 0;
          border-radius: 0 0 4px 4px;
     }
-
+    
     .nav-menu.active {
         display: flex;
     }
@@ -836,10 +836,23 @@ body {
     }
 
     .hamburger {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    }
+    
+    /* Тези стилове са за анимацията на "X" */
+    .hamburger.active div:nth-child(1) {
+        transform: translateY(0.85vh) rotate(45deg);
+    }
+    
+    .hamburger.active div:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .hamburger.active div:nth-child(3) {
+        transform: translateY(-0.85vh) rotate(-47deg);
     }
 
     .user-section {
@@ -1032,4 +1045,5 @@ body {
     .arrow-down {
         display: none;
     }
+
 }
