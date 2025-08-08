@@ -173,32 +173,6 @@
             </div>
         </div>
     </div>
-
-    <div class="floating-actions">
-
-        <!-- Бутон за отваряне на чата (с променени размери) -->
-        <button id="chatbot-toggle-btn"
-            class="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition transform hover:scale-110 w-16 h-16 flex items-center justify-center">
-            <img src="images/chatbot1.svg" alt="Чатбот" class="h-8 w-8">
-        </button>
-    </div>
-
-
-    <!-- ПРОМЯНА: HTML-ът на контейнера е изчистен от Tailwind класове за позициониране, които сега се управляват от CSS -->
-    <div id="chatbot-container" class="fixed bg-white z-[1000] chatbot-window">
-        <!-- Хедър на чат прозореца -->
-        <div class="flex justify-between items-center p-3 bg-blue-600 text-white rounded-t-lg">
-            <h3 class="font-bold text-lg">Смарти Асистент</h3>
-            <button id="chatbot-close-btn" class="p-1 hover:bg-blue-700 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-        <!-- Iframe, който зарежда чатбота -->
-        <iframe id="chatbot-iframe" src="./chatbot.html" class="w-full h-full border-0 chatbot-iframe"></iframe>
-    </div>
     <!-- Map Modal -->
     <div id="mapModalOverlay" class="modal-overlay hidden">
         <div class="modal-content" style="width: 80vw; height: 80vh; padding: 1rem;">
@@ -215,30 +189,7 @@
     <!-- ====================================================== -->
 
     <script src="script.js"></script>
-
-    <!-- Скрипт за управление на чатбот асистента -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const chatbotToggleBtn = document.getElementById('chatbot-toggle-btn');
-            const chatbotContainer = document.getElementById('chatbot-container');
-            const chatbotCloseBtn = document.getElementById('chatbot-close-btn');
-            const floatingActions = document.querySelector('.floating-actions');
-
-            // ПРОМЯНА: Функциите вече добавят/премахват 'is-open' клас, вместо 'scale-0'
-            function openChatbot() {
-                chatbotContainer.classList.add('is-open');
-                floatingActions.classList.add('hidden'); // Скриваме групата с икони
-            }
-
-            function closeChatbot() {
-                chatbotContainer.classList.remove('is-open');
-                floatingActions.classList.remove('hidden'); // Показваме отново групата
-            }
-
-            chatbotToggleBtn.addEventListener('click', openChatbot);
-            chatbotCloseBtn.addEventListener('click', closeChatbot);
-        });
-    </script>
 </body>
+
 
 </html>
