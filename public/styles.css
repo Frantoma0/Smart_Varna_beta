@@ -594,16 +594,27 @@ body {
     overflow: hidden;
 }
 
+
 .modal-close-button {
     position: absolute;
-    top: 1vh;
-    right: 1vw;
+    top: 0.8rem; /* По-голям и консистентен отстъп отгоре */
+    right: 0.8rem; /* По-голям и консистентен отстъп отдясно */
     background: none;
     border: none;
-    font-size: clamp(20px, 2vw, 28px);
+    font-size: clamp(30px, 3vw, 40px); /* Увеличен размер на самия 'x' */
     cursor: pointer;
     color: #9ca3af;
     z-index: 20;
+    padding: 0.25rem; /* Добавя малко "въздух" за по-лесно натискане */
+    line-height: 1; /* Подобрява вертикалното подравняване */
+}
+
+@media (min-width: 951px) { /* Прилага се само на екрани, по-широки от 950px */
+    .modal-close-button {
+        top: 1.7rem;      /* По-голям отстъп отгоре (~16px) */
+        right: 1.7rem;     /* По-голям отстъп отдясно (~16px) */
+        font-size: 2.8rem; /* Значително по-голям 'x' (~32px) */
+    }
 }
 
 /* Step navigation */
