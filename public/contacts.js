@@ -13,6 +13,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // Contact Form Handling
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
+        const nameInput = document.getElementById('name');
+
+        // Добавяме слушател, който не позволява въвеждането на невалидни символи
+        if(nameInput) {
+            nameInput.addEventListener('input', function () {
+                // Премахваме всички символи, които не са букви (кирилица и латиница), интервал или тире
+                this.value = this.value.replace(/[^a-zA-Zа-яА-Я\s\-]/g, '');
+            });
+        }
         contactForm.addEventListener('submit', async function (e) {
             e.preventDefault(); // Prevent the default form submission
 
@@ -24,6 +33,11 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!name.trim() || !email.trim() || !message.trim()) {
                 alert('Моля, попълнете всички полета.');
                 return;
+            }
+
+            if (!emailInput.checkValidity()) {
+                emailInput.reportValidity(); // Това ще покаже съобщението в стил балонче
+                return; 
             }
 
             const submitButton = contactForm.querySelector('button[type="submit"]');
