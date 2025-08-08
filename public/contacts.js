@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault(); // Prevent the default form submission
 
             const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
+            const emailInput = document.getElementById('email');
+            const email = emailInput.value;
             const message = document.getElementById('message').value;
 
             // Basic validation
