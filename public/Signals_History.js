@@ -24,6 +24,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    document.addEventListener('DOMContentLoaded', function () {
+    // START MODIFICATION: Hamburger Menu Toggle
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', function () {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    }
+
     function initializeApp() {
         const signalsContainer = document.getElementById('signals-container');
         const loadingIndicator = document.getElementById('loading-indicator');
