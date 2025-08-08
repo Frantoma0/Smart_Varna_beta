@@ -477,6 +477,34 @@ body {
         gap: 5px;
         cursor: pointer;
     }
+    .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 1100; /* Добавете z-index, за да е над други елементи */
+}
+
+/* Тези правила са нови и трябва да се добавят */
+.hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    border-radius: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+.hamburger.active div:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.active div:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active div:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
 }
 @media (max-width: 768px) {
     .chatbot-window {
@@ -498,3 +526,4 @@ body {
 .chatbot-window { position: fixed; bottom: 6rem; right: 1.25rem; width: 90vw; max-width: 28rem; height: 70vh; max-height: 600px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); transform-origin: bottom right; transform: scale(0); transition: transform 0.3s ease-in-out; }
 .chatbot-window.is-open { transform: scale(1); }
 .hidden { display: none !important; }
+
