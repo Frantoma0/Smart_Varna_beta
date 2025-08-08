@@ -69,6 +69,8 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
+    flex-wrap: wrap; /* Позволява на елементите да преминат на нов ред */
+    gap: 1rem;       /* Добавя разстояние между редовете, когато се увият */
 }
 
 .map-controls {
