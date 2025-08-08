@@ -775,10 +775,11 @@ body {
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-    .main-content {
-        flex-direction: column;
-        padding: 15px;
-    }
+        .main-content {
+            flex-direction: column;
+            padding-top: 2rem; /* Задава разстояние само отгоре (около 32px) */
+            min-height: auto;  /* Премахва голямата височина */
+        }
 
     .header {
         flex-wrap: wrap;
@@ -907,10 +908,7 @@ body {
         display: flex;
     }
 
-    .main-title,
-    .main-subtitle,
-    .learn-more,
-    .arrow-down {
+    .left-section {
         display: none;
     }
 
@@ -1024,11 +1022,7 @@ body {
         padding-top: env(safe-area-inset-top);
     }
 
-    .main-title,
-    .main-subtitle,
-    .main-logo,
-    .learn-more,
-    .arrow-down {
+    .left-section {
         display: none;
     }
 }
