@@ -408,8 +408,8 @@ body {
 }
 
 .upload-icon img {
-    width: clamp(30px, 2.8vw, 44px);
-    height: clamp(30px, 2.8vw, 44px);
+    width: clamp(40px, 4vw, 55px);
+    height: clamp(40px, 4vw, 55px);
     object-fit: contain;
 }
 
@@ -444,7 +444,7 @@ body {
 }
 
 .upload-text {
-    font-size: clamp(12px, 1.2vw, 16px);
+    font-size: clamp(16px, 1.5vw, 20px);
     color: #263A8D;
     font-weight: 500;
 }
@@ -750,8 +750,8 @@ body {
 }
 
 .step {
-    width: 30px;
-    height: 30px;
+    width: 34px;   /* Увеличено от 30px */
+    height: 34px;  /* Увеличено от 30px */
     border-radius: 50%;
     background-color: #d1d5db;
     display: flex;
@@ -760,6 +760,7 @@ body {
     color: white;
     font-weight: bold;
     margin: 0 10px;
+    font-size: 1rem; /* Добавено, за да се увеличи и цифрата (16px) */
 }
 
 .step.active {
@@ -883,6 +884,32 @@ body {
     .learn-more,
     .arrow-down {
         display: none;
+    }
+    .submit-btn {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        min-height: auto; /* Премахва ограничението за минимална височина */
+        font-size: 0.85rem;  /* Увеличава шрифта в самия бутон (16px) */
+        border-radius: 12px;
+    }
+    
+    /* 2. Увеличаване на шрифта на етикетите (лейбълите) */
+    .form-label {
+        font-size: 1.1rem; /* Увеличава шрифта до ~15px */
+        margin-bottom: 8px;
+    }
+    
+    /* 3. Увеличаване на шрифта и адаптиране на полетата за въвеждане */
+    .form-input {
+        font-size: 1rem; /* Увеличава шрифта до 16px за лесно четене */
+        padding-top: 13px;
+        padding-bottom: 13px;
+        min-height: auto; /* Премахва ограничението за минимална височина */
+        border-radius: 10px;
+    }
+    .form-input::placeholder {
+        font-size: 0.9rem; /* Намалява леко шрифта, за да изглежда визуално равен */
+        color: #a0aec0;    /* По-светъл цвят, стандартен за placeholder */
     }
 }
 
