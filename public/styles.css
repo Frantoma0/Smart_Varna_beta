@@ -408,8 +408,8 @@ body {
 }
 
 .upload-icon img {
-    width: clamp(40px, 4vw, 55px);
-    height: clamp(40px, 4vw, 55px);
+    width: clamp(50px, 5vw, 60px);
+    height: clamp(50px, 5vw, 60px);
     object-fit: contain;
 }
 
@@ -444,7 +444,7 @@ body {
 }
 
 .upload-text {
-    font-size: clamp(16px, 1.5vw, 20px);
+    font-size: clamp(18px, 1.8vw, 24px);
     color: #263A8D;
     font-weight: 500;
 }
