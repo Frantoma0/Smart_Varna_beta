@@ -996,30 +996,16 @@ body {
         object-fit: contain;
     }
 
-    .chatbot-window {
-        /* Пренаписваме стиловете за цял екран */
-        bottom: 0;
-        right: 0;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        max-width: 100%;
-        max-height: 100%;
-        border-radius: 0;
-        /* Променяме анимацията да е плъзгане отдолу */
-        transform: translateY(100%);
-        /* Начално състояние: скрит под екрана */
+    .leaflet-popup {
+        max-width: 90vw !important;
     }
 
-    .chatbot-window.is-open {
-        transform: translateY(0);
-        /* Отворено състояние: плъзнал нагоре */
-    }
-
-    /* Осигуряваме място за "safe area" (прореза/острова) на iPhone */
-    #chatbot-container>div:first-child {
-        padding-top: env(safe-area-inset-top);
+    .leaflet-popup-content {
+        font-size: 14px; /* По-четлив шрифт за мобилни устройства */
+        line-height: 1.5;
+        word-wrap: break-word; /* Пренася дълги думи, които иначе биха разширили балончето */
+        white-space: normal !important; /* Позволява нормално пренасяне на редове */
+        margin: 12px 18px !important; /* Осигурява повече "въздух" около текста */
     }
 
     .left-section {
