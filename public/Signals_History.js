@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', function () {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    }
     let SUPABASE_URL = '';
     let SUPABASE_ANON_KEY = '';
     let supabaseClient = null;
@@ -22,18 +31,6 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Грешка при зареждане на Supabase ключове: ' + error.message);
             console.error('Грешка при зареждане на Supabase ключове:', error);
         }
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-    // START MODIFICATION: Hamburger Menu Toggle
-    const hamburger = document.getElementById('hamburger');
-    const navMenu = document.getElementById('nav-menu');
-
-    if (hamburger && navMenu) {
-        hamburger.addEventListener('click', function () {
-            this.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
     }
 
     function initializeApp() {
