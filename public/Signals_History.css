@@ -1,14 +1,3 @@
-.main-content-signals {
-    display: flex;
-    gap: 2vw;
-    max-width: 90vw;
-    margin: 2rem auto;
-    justify-content: center;
-    align-items: stretch;
-    max-height: calc(100vh - 150px);
-    overflow: hidden;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -23,6 +12,7 @@ body {
     overflow-x: hidden;
 }
 
+/* Header - Responsive with % padding and sizing */
 .header {
     background: linear-gradient(to left, #283BAF 0%, #263987 48%, #211B52 100%);
     padding: 1vh 2vw;
@@ -56,82 +46,35 @@ body {
     margin-left: 2vw;
 }
 
-.map-title {
-    font-size: clamp(30px, 1.8vw, 24px);
-    font-weight: 700;
-    color: #263A8D;
-    margin-bottom: 0; /* Премахваме margin, за да се подравни по-добре */
-    margin-right: auto; /* Избутва контролите надясно */
-}
-
-/* НОВО: Стилове за заглавката на картата и контролите */
-.map-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.map-controls {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem; /* Разстояние между бутоните */
-}
-
-.date-slider-wrapper {
-    width: 100%; /* Позволява му да се свива на по-малки екрани */
-    max-width: 230px; /* Ограничава максималната му ширина */
-    text-align: center;
-}
-
-
-/* Стил на самия плъзгач от библиотеката */
-#date-slider {
-    height: 8px;
-}
-#date-slider .noUi-connect {
-    background: #263A8D;
-}
-#date-slider .noUi-handle {
-    height: 20px;
-    width: 20px;
-    top: -7px;
-    right: -10px;
-    border-radius: 50%;
-    border: 2px solid white;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-    cursor: grab;
-}
-#date-slider .noUi-handle:focus {
-    outline: none;
-}
-#date-slider .noUi-handle::before,
-#date-slider .noUi-handle::after {
-    display: none; /* Махаме стандартните чертички */
-}
-
-.map-control-btn, .map-control-select {
-    padding: 0.9rem;
-    border: 1px solid #d1d5db; /* Сива рамка */
-    border-radius: 0.5rem; /* Заоблени ъгли */
+.address-suggestions-container {
+    position: absolute;
+    /* Позиционираме го спрямо родителския .form-section, ако той е relative */
+    width: 100%;
     background-color: white;
+    border: 1px solid #d1d5db;
+    border-top: none;
+    border-radius: 0 0 0.8vw 0.8vw;
+    z-index: 1000; /* Увеличен z-index */
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    left: 0; /* Гарантира, че започва от левия край */
+}
+
+.address-suggestion-item {
+    padding: 0.8vh 1.2vw;
     cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 0.875rem;
+    font-size: clamp(12px, 1.1vw, 16px);
 }
 
-.map-control-btn:hover, .map-control-select:hover {
-    border-color: #3b82f6; /* Синя рамка при hover */
-    background-color: #f9fafb; /* Много светъл фон при hover */
+.address-suggestion-item:hover {
+    background-color: #f3f4f6;
 }
 
-.map-control-btn.active {
-    background-color: #263A8D; /* Син фон за активен бутон */
-    border-color: #263A8D;
-}
-
-.map-control-btn.active img {
-    filter: brightness(0) invert(1); /* Прави иконата бяла, когато бутонът е активен */
+/* Уверяваме се, че родителят е позициониран, за да работи absolute */
+.form-section {
+    position: relative;
+    margin-bottom: 2vh;
 }
 
 .nav-item {
@@ -159,292 +102,706 @@ body {
     color: #263A8D;
 }
 
-.content-column {
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+}
+
+.register-btn {
     background: white;
-    border-radius: 1.5rem;
-    padding: 2rem;
-    box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.05);
-    flex: 1 1 50%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-#signals-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    min-height: 80vh;
-    overflow-y: auto;
-    padding-right: 0.5rem;
-}
-
-#map-container-column {
-    min-height: 80vh;
-    display: flex;
-    flex-direction: column;
-}
-
-#map {
-    flex-grow: 1;
-    border-radius: 1rem;
-    height: 100%;
-}
-
-.marker-cluster-critical div { background-color: rgba(239, 68, 68, 0.8); }
-.marker-cluster-high-priority div {  background-color: rgba(245, 158, 11, 0.8); }
-.marker-cluster-routine div {  background-color: rgba(59, 130, 246, 0.8); }
-
-/* 3. Правим външния контейнер прозрачен и го използваме само за размер */
-.marker-cluster {
-    background-color: transparent;
-}
-
-/* 4. Казваме на вътрешния div да заеме 100% от родителя си и да центрира текста */
-.marker-cluster div {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    border-radius: 50%;
-    border: 2px solid white;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-    
-    /* Центриране на числото с flexbox */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    /* Стил на текста */
-    font-size: 14px;
-    font-weight: bold;
-    color: white;
-}
-
-/* 5. Премахваме старото позициониране на текста, тъй като flexbox се грижи за това */
-.marker-cluster span {
-    line-height: 1; /* Премахва нуждата от line-height, равен на височината */
-}
-/* НОВА ПРОМЯНА: Стил за иконите в маркера */
-.custom-div-icon {
-    background: transparent;
-    border: none;
-}
-
-.marker-pin {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 3px solid white;
-    /* box-shadow: 0 2px 8px rgba(0,0,0,0.3); -- ПРЕМАХНАТО */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease-in-out; /* ДОБАВЕНО */
-}
-
-/* === ПРОМЯНА: Добавяме hover ефекта === */
-.marker-pin:hover,
-.custom-div-icon.marker-selected .marker-pin {
-    transform: scale(1.8); /* Уголемява маркера с % */
-    cursor: pointer;
-}
-
-/* === ПРОМЯНА: Премахваме сянката от иконата === */
-.marker-icon-svg {
-    width: 22px;
-    height: 22px;
-    /* filter: drop-shadow(0 1px 1px rgba(0,0,0,0.5)); -- ПРЕМАХНАТО */
-}
-
-.signal-card.card-selected {
-    background-color: #eff6ff; /* Светло син фон */
-    border-left-color: #3b82f6 !important; /* По-силен син бордър, който да презапише статуса */
-}
-
-/* Стил за резервния "!" символ */
-.marker-fallback-icon {
-    color: white;
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 1;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
-}
-
-/* Анимациите вече се прилагат към нашия .marker-pin */
-.marker-pulse-critical .marker-pin {
-    animation: pulse-critical 2s infinite ease-out;
-}
-.marker-pulse-high-priority .marker-pin {
-    animation: pulse-high-priority 2.5s infinite ease-in-out;
-}
-
-/* 2. Когато родителят е hover-нат или избран, СПИРАМЕ анимацията на детето */
-.custom-div-icon:hover .marker-pin,
-.custom-div-icon.marker-selected .marker-pin {
-    animation: none;
-}
-
-.marker-located .marker-pin {
-    animation: locate-bounce 1s ease;
-}
-
-@keyframes pulse-critical {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.8); }
-    70% { transform: scale(1.1); box-shadow: 0 0 10px 15px rgba(239, 68, 68, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-}
-
-@keyframes pulse-high-priority {
-    0% { box-shadow: 0 0 4px 4px rgba(245, 158, 11, 0.4); }
-    50% { box-shadow: 0 0 8px 8px rgba(245, 158, 11, 0.1); }
-    100% { box-shadow: 0 0 4px 4px rgba(245, 158, 11, 0.4); }
-}
-
-.marker-located .marker-circle {
-    animation: locate-bounce 1s ease;
-}
-
-@keyframes locate-bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateY(0) scale(1); }
-    40% { transform: translateY(-25px) scale(1.1); }
-    60% { transform: translateY(-10px) scale(1.05); }
-}
-
-
-.signal-card {
+    color: #263A8D;
+    padding: 0.8vh 1.5vw;
+    border-radius: 1.5vw;
+    text-decoration: none;
+    font-weight: 580;
+    font-size: clamp(12px, 1.1vw, 16px);
     transition: all 0.3s ease;
-    border-left: 4px solid;
+    white-space: nowrap;
 }
 
-.signal-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+.register-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.4vh 1vh rgba(0, 0, 0, 0.2);
 }
 
-.signal-card.in_progress { border-left-color: #F59E0B; } 
-.signal-card.resolved { border-left-color: #10B981; }
-.signal-card.rejected { border-left-color: #EF4444; }
-
-.signal-status {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.85rem;
-    font-weight: 600;
+.user-avatar {
+    width: 2.5vw;
+    height: 2.5vw;
+    min-width: 25px;
+    min-height: 25px;
+    max-width: 40px;
+    max-height: 40px;
+    border-radius: 50%;
 }
 
-.status-in_progress { background-color: #FEF3C7; color: #B45309; }
-.status-resolved { background-color: #D1FAE5; color: #047857; }
-.status-rejected { background-color: #FEE2E2; color: #B91C1C; }
+/* Hamburger Menu for Mobile */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px; /* Промяна от vh на px */
+    cursor: pointer;
+    z-index: 1100;
+    padding: 10px; /* По-консистентен паддинг */
+}
 
-.map-header {
+.hamburger div {
+    width: 25px; /* Фиксирана ширина */
+    height: 3px; /* Фиксирана височина */
+    background-color: white;
+    border-radius: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+.hamburger.active div:nth-child(1) {
+    /* Отместването (8px) е равно на gap (5px) + височината на средния елемент (3px) */
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.active div:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active div:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg); /* Симетричен ъгъл */
+}
+
+/* Animation Scan Magnifier */
+#scanAnimation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.magnifying-glass {
+    position: absolute;
+    width: 4vw;
+    height: 4vw;
+    min-width: 35px;
+    min-height: 35px;
+    stroke-width: 2.5;
+    color: white;
+    animation: scan 4s ease-in-out infinite;
+    top: 50%;
+    transform: translateY(-50%);
+    filter: drop-shadow(0 0 1vh rgba(0, 0, 0, 0.4));
+}
+
+@keyframes scan {
+    0% {
+        left: 5%;
+        opacity: 0.8;
+    }
+
+    25% {
+        left: 25%;
+        opacity: 1;
+    }
+
+    50% {
+        left: 75%;
+        opacity: 0.8;
+    }
+
+    75% {
+        left: 25%;
+        opacity: 1;
+    }
+
+    100% {
+        left: 5%;
+        opacity: 0.8;
+    }
+}
+
+/* Main Content - Responsive layout */
+/* Main Content - Responsive layout */
+.main-content {
     display: flex;
-    justify-content: space-between;
+    padding: 1vh 2vw;
+    gap: 3vw;
+    max-width: 90vw;
+    margin: 0 auto;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 1.5rem;
+    min-height: 80vh;
 }
 
-#signals-container::-webkit-scrollbar { width: 8px; }
-#signals-container::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 4px; }
-#signals-container::-webkit-scrollbar-thumb { background-color: #c5c5c5; border-radius: 4px; }
-#signals-container::-webkit-scrollbar-thumb:hover { background-color: #a8a8a8; }
+/* Left Section - 48% of screen width */
+.left-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    flex: 0 0 48%;
+    padding: 2vh 1.5vw;
+}
 
+.main-logo {
+    width: 16vw;
+    height: 12vh;
+    min-width: 160px;
+    min-height: 100px;
+    margin-bottom: 2vh;
+}
+
+.main-logo img {
+    width: 200%;
+    height: 200%;
+    margin-top: -100px;
+    object-fit: contain;
+}
+
+.main-title {
+    color: #000000;
+    font-size: clamp(34px, 1.8vw, 24px);
+    font-weight: 700;
+    margin-bottom: 1vh;
+    line-height: 1.4;
+}
+
+.main-subtitle {
+    color: #000000;
+    font-size: clamp(26px, 1.5vw, 20px);
+    font-weight: 500;
+    margin-bottom: 2vh;
+    opacity: 0.9;
+}
+
+.learn-more {
+    color: #000000;
+    font-size: clamp(16px, 1.8vw, 24px);
+    font-weight: 600;
+    margin-bottom: 1vh;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.arrow-down {
+    color: #000000;
+    font-size: clamp(30px, 3vw, 50px);
+    margin-bottom: 2vh;
+    animation: bounce 2s infinite;
+}
+/* ... съществуващите стилове ... */
+
+/* НОВО: Стилове за контейнера с предложения за адрес */
+.address-suggestions-container {
+    position: absolute;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #d1d5db;
+    border-top: none;
+    border-radius: 0 0 0.8vw 0.8vw;
+    z-index: 100;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.address-suggestion-item {
+    padding: 0.8vh 1.2vw;
+    cursor: pointer;
+    font-size: clamp(12px, 1.1vw, 16px);
+}
+
+.address-suggestion-item:hover {
+    background-color: #f3f4f6;
+}
+
+.hidden {
+    display: none !important;
+}
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-1vh);
+    }
+
+    60% {
+        transform: translateY(-0.5vh);
+    }
+}
+
+/* City Silhouettes - Responsive positioning */
+.city-silhouette {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    height: auto;
+}
+
+.city-left {
+    left: 0;
+    width: 18vw;
+    max-width: 250px;
+    min-width: 100px;
+    bottom: 0;
+}
+
+.city-right {
+    right: 1vw;
+    width: 10vw;
+    max-width: 140px;
+    min-width: 70px;
+    z-index: 2;
+}
+
+.city-silhouette img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Right Section - 50% of screen width */
+.right-section {
+    flex: 0 0 50%;
+    background: white;
+    border-radius: 1.5vw;
+    padding: 2vh 2vw;
+    box-shadow: 0 0.8vh 2vh rgba(0, 0, 0, 0.1);
+    z-index: 200;
+}
+
+.form-title {
+    font-size: clamp(20px, 2.2vw, 30px);
+    font-weight: 600;
+    color: #263A8D;
+    margin-bottom: 2vh;
+    text-align: center;
+}
+
+.upload-area {
+    border: 2px dashed #3b4fbf;
+    border-radius: 1.2vw;
+    padding: 4vh 2vw;
+    text-align: center;
+    margin-bottom: 2vh;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    height: 60vh;
+}
+
+.upload-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: clamp(30px, 2.8vw, 44px);
+    color: #3b4fbf;
+    margin-bottom: 1vh;
+}
+
+.upload-icon img {
+    width: clamp(30px, 2.8vw, 44px);
+    height: clamp(30px, 2.8vw, 44px);
+    object-fit: contain;
+}
+
+/* Alternative approach - if you want to use the plus symbol directly instead of an image */
+.upload-icon-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: clamp(40px, 3.5vw, 60px);
+    color: #3b4fbf;
+    margin-bottom: 1vh;
+    font-weight: 300;
+    line-height: 1;
+}
+
+/* Make sure the upload area centers everything properly */
+.upload-area {
+    border: 2px dashed #3b4fbf;
+    border-radius: 1.2vw;
+    padding: 4vh 2vw;
+    text-align: center;
+    margin-bottom: 2vh;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    min-height: 26vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.upload-text {
+    font-size: clamp(12px, 1.2vw, 16px);
+    color: #263A8D;
+    font-weight: 500;
+}
+
+.form-input {
+    width: 100%;
+    padding: 1vh 1.2vw;
+    border: 1px solid #d1d5db;
+    border-radius: 0.8vw;
+    background-color: #e5e7eb4e;
+    font-size: clamp(12px, 1.1vw, 16px);
+    transition: border-color 0.3s ease;
+    margin-bottom: 1.5vh;
+    min-height: 4vh;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #3b4fbf;
+    box-shadow: 0 0 0 0.2vw rgba(59, 79, 191, 0.2);
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5vh;
+    font-weight: 600;
+    color: #263A8D;
+    font-size: clamp(12px, 1.1vw, 16px);
+}
+
+.form-section {
+    margin-bottom: 2vh;
+}
+
+.submit-btn {
+    background: #263A8D;
+    color: white;
+    border: none;
+    padding: 1.2vh 2.5vw;
+    border-radius: 2vw;
+    font-size: clamp(14px, 1.2vw, 16px);
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 2vh;
+    transition: all 0.3s ease;
+    min-height: 6vh;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.6vh 1.5vh rgba(59, 79, 191, 0.3);
+}
+/* Уверяваме се, че z-index на модала за картата е достатъчно висок */
+#mapModalOverlay {
+    z-index: 2500;
+}
+.social-icons {
+    position: fixed;
+    bottom: 2vh;
+    right: 2vw;
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    z-index: 1500;
+}
+
+.social-icon {
+    width: 3vw;
+    height: 3vw;
+    min-width: 35px;
+    min-height: 35px;
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: scale(1.1);
+}
+
+.social-icon img {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+}
+
+.viber-icon {
+    background: #665CAC;
+}
+
+.messenger-icon {
+    background: #0084FF;
+}
+
+.map-section {
+    margin-top: 2vh;
+}
+
+.map-title {
+    font-size: clamp(16px, 1.8vw, 24px);
+    font-weight: 600;
+    color: #263A8D;
+    margin-bottom: 1vh;
+    text-align: center;
+}
+
+.map-container {
+    width: 100%;
+    height: 60vh;
+    min-height: 160px;
+    border-radius: 1.2vw;
+    overflow: hidden;
+    box-shadow: 0 0.4vh 1.2vh rgba(0, 0, 0, 0.1);
+}
+
+/* Modal styles */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(5px);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2000;
-    padding: 1rem;
+    padding: 2vh 2vw;
 }
 
 .modal-content {
     background-color: white;
-    padding: 0.5rem;
-    border-radius: 0.75rem;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    padding: 3vh 2vw;
+    border-radius: 2vw;
+    box-shadow: 0 2vh 2.5vh -0.5vh rgba(0, 0, 0, 0.1), 0 1vh 1vh -0.5vh rgba(0, 0, 0, 0.04);
     position: relative;
     max-width: 90vw;
-    max-height: 90vh;
-    line-height: 0;
-}
-
-#modal-photo-img {
-    border-radius: 0.5rem;
-    display: block;
-    max-width: 100%;
-    max-height: calc(90vh - 1rem);
-    width: auto;
-    height: auto;
+    width: 35vw;
+    min-width: 300px;
+    text-align: center;
+    overflow: hidden;
 }
 
 .modal-close-button {
     position: absolute;
-    top: -16px;
-    right: -16px;
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    font-size: 20px;
-    font-weight: bold;
+    top: 1vh;
+    right: 1vw;
+    background: none;
+    border: none;
+    font-size: clamp(20px, 2vw, 28px);
     cursor: pointer;
-    color: #4b5563;
+    color: #9ca3af;
     z-index: 20;
+}
+
+/* Step navigation */
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2vh;
+}
+
+.step {
+    width: 2.5vw;
+    height: 2.5vw;
+    min-width: 22px;
+    min-height: 22px;
+    max-width: 35px;
+    max-height: 35px;
+    border-radius: 50%;
+    background-color: #d1d5db;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s ease;
+    color: white;
+    font-weight: bold;
+    font-size: clamp(10px, 1vw, 16px);
 }
 
-.modal-close-button:hover {
-    transform: scale(1.1);
+.step.active {
+    background-color: #263A8D;
 }
 
-.hidden {
-    display: none !important;
+.step-line {
+    width: 6vw;
+    height: 0.25vh;
+    background-color: #d1d5db;
+    margin: 0 0.8vw;
 }
 
-.photo-thumb-container {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    cursor: pointer;
-    z-index: 10;
+#map .leaflet-pane,
+#map .leaflet-tile,
+#map .leaflet-marker-icon,
+#map .leaflet-marker-shadow,
+#map .leaflet-tile-container,
+#map .leaflet-popup,
+#map .leaflet-control-container,
+#map .leaflet-tooltip,
+#map .leaflet-zoom-box {
+    z-index: 400 !important;
 }
 
+.custom-marker-icon {
+    background-color: #3b82f6;
+    border-radius: 50%;
+    border: 2px solid white;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.custom-marker-icon.high-priority {
+    background-color: #ef4444;
+}
+
+.custom-marker-icon.medium-priority {
+    background-color: #f59e0b;
+}
+
+.custom-marker-icon.low-priority {
+    background-color: #10b981;
+}
+
+.marker-cluster-small {
+    background-color: rgba(181, 226, 140, 0.6);
+}
+
+.marker-cluster-small div {
+    background-color: rgba(110, 204, 57, 0.6);
+}
+
+.marker-cluster-medium {
+    background-color: rgba(241, 211, 87, 0.6);
+}
+
+.marker-cluster-medium div {
+    background-color: rgba(240, 194, 12, 0.6);
+}
+
+.marker-cluster-large {
+    background-color: rgba(253, 156, 115, 0.6);
+}
+
+.marker-cluster-large div {
+    background-color: rgba(241, 128, 23, 0.6);
+}
+
+.marker-cluster {
+    background-clip: padding-box;
+    border-radius: 20px;
+}
+
+.marker-cluster div {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    margin-top: 5px;
+    text-align: center;
+    border-radius: 15px;
+    font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.marker-cluster span {
+    line-height: 30px;
+}
+
+/* Animations */
+@keyframes flash-red {
+
+    0%,
+    100% {
+        background-color: white;
+        border-color: #d1d5db;
+    }
+
+    50% {
+        background-color: #fee2e2;
+        border-color: #ef4444;
+    }
+}
+
+.flash-error {
+    animation: flash-red 1s ease-in-out;
+}
+
+/* Step navigation */
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.step {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+.step.active {
+    background-color: #263A8D;
+}
+
+.step-line {
+    flex-grow: 1;
+    height: 3px;
+    background-color: #d1d5db;
+    margin: auto 0;
+}
+
+/* Responsive Design */
 @media (max-width: 1024px) {
-    .main-content-signals {
+    .main-content {
         flex-direction: column;
-        max-width: 95vw;
-        gap: 1.5rem;
-        max-height: none;
-        overflow: visible;
+        padding: 15px;
     }
 
-    .content-column {
-        flex-basis: auto;
-        border-radius: 1.5rem;
-        padding: 1.5rem;
-        max-height: 45vh;
-        overflow: hidden;
-    }
-    
-    #signals-container {
-        min-height: auto;
+    .header {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
     }
 
-    #map-container-column {
-        min-height: 40vh;
-        max-height: 50vh;
+    .left-section,
+    .right-section {
+        flex: none;
+        width: 100%;
     }
+
+    .city-silhouette {
+        max-height: 150px;
+    }
+
+    .main-logo img {
+        width: 200%;
+        height: 200%;
+        object-fit: contain;
+    }
+
 }
 
 @media (max-width: 950px) {
@@ -464,11 +821,17 @@ body {
         right: 0px;
         top: 80px;
         padding: 20px 0;
-        border-radius: 0 0 4px 4px;
+         border-radius: 0 0 4px 4px;
     }
 
     .nav-menu.active {
         display: flex;
+    }
+
+    .nav-item {
+        text-align: center;
+        font-size: 12px;
+        padding: 15px 0;
     }
 
     .hamburger {
@@ -477,53 +840,195 @@ body {
         gap: 5px;
         cursor: pointer;
     }
-    .hamburger {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    z-index: 1100; /* Добавете z-index, за да е над други елементи */
-}
 
-/* Тези правила са нови и трябва да се добавят */
-.hamburger div {
-    width: 25px;
-    height: 3px;
-    background-color: white;
-    border-radius: 3px;
-    transition: all 0.3s ease-in-out;
-}
-
-.hamburger.active div:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-}
-
-.hamburger.active div:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.active div:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
-}
-}
-@media (max-width: 768px) {
-    .chatbot-window {
-        bottom: 0; right: 0; left: 0; top: 0;
-        width: 100%; height: 100%;
-        max-width: 100%; max-height: 100%;
-        border-radius: 0;
-        transform: translateY(100%);
+    .user-section {
+        gap: 10px;
     }
-    .chatbot-window.is-open {
+
+    .register-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .main-logo {
+        width: 250px;
+        height: auto;
+    }
+
+    .main-title {
+        font-size: 22px;
+    }
+
+    .main-subtitle {
+        font-size: 16px;
+    }
+
+    .city-silhouette {
+        display: none;
+    }
+
+    .right-section {
+        padding: 20px;
+    }
+
+    .form-title {
+        font-size: 28px;
+    }
+
+    .main-title,
+    .main-subtitle,
+    .learn-more,
+    .arrow-down {
+        display: none;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .header-left .logo {
+        margin-right: auto;
+    }
+
+    .main-logo img {
+        width: 200%;
+        height: 200%;
+        object-fit: contain;
+    }
+
+    .user-section {
+        display: none;
+    }
+
+    .nav-menu {
+        top: 75px;
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .main-title,
+    .main-subtitle,
+    .learn-more,
+    .arrow-down {
+        display: none;
+    }
+
+    /* Animations */
+    .right-section,
+    .left-section {
+        animation: fadeIn 0.8s ease-in-out;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
         transform: translateY(0);
     }
 }
 
-/* Chatbot Styles */
-.floating-actions { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 1000; }
-.chatbot-iframe::-webkit-scrollbar { display: none; }
-.chatbot-iframe { -ms-overflow-style: none; scrollbar-width: none; }
-.chatbot-window { position: fixed; bottom: 6rem; right: 1.25rem; width: 90vw; max-width: 28rem; height: 70vh; max-height: 600px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); transform-origin: bottom right; transform: scale(0); transition: transform 0.3s ease-in-out; }
-.chatbot-window.is-open { transform: scale(1); }
-.hidden { display: none !important; }
+/* Hidden elements */
+.hidden {
+    display: none !important;
+}
 
+/* Скриваме скролбара на iframe-а в някои браузъри */
+.chatbot-iframe::-webkit-scrollbar {
+    display: none;
+}
+
+.chatbot-iframe {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+/* Стил за новата група с икони */
+.floating-actions {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    z-index: 1000;
+}
+
+/* ========================================= */
+/* ## НАЧАЛО: НОВИ РЕСПОНСИВ СТИЛОВЕ ЗА ЧАТБОТА ## */
+/* ========================================= */
+
+.chatbot-window {
+    /* Desktop стилове (по подразбиране) */
+    bottom: 6rem;
+    /* ~bottom-24 */
+    right: 1.25rem;
+    /* right-5 */
+    width: 90vw;
+    max-width: 28rem;
+    /* max-w-md */
+    height: 70vh;
+    max-height: 600px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transform-origin: bottom right;
+    transform: scale(0);
+    /* Начално състояние: затворен */
+    transition: transform 0.3s ease-in-out;
+}
+
+.chatbot-window.is-open {
+    transform: scale(1);
+    /* Отворено състояние */
+}
+
+/* Mobile стилове */
+@media (max-width: 768px) {
+    .main-logo img {
+        width: 200%;
+        height: 200%;
+        object-fit: contain;
+    }
+
+    .chatbot-window {
+        /* Пренаписваме стиловете за цял екран */
+        bottom: 0;
+        right: 0;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 0;
+        /* Променяме анимацията да е плъзгане отдолу */
+        transform: translateY(100%);
+        /* Начално състояние: скрит под екрана */
+    }
+
+    .chatbot-window.is-open {
+        transform: translateY(0);
+        /* Отворено състояние: плъзнал нагоре */
+    }
+
+    /* Осигуряваме място за "safe area" (прореза/острова) на iPhone */
+    #chatbot-container>div:first-child {
+        padding-top: env(safe-area-inset-top);
+    }
+
+    .main-title,
+    .main-subtitle,
+    .main-logo,
+    .learn-more,
+    .arrow-down {
+        display: none;
+    }
+}
