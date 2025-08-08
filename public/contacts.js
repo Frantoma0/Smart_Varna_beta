@@ -13,50 +13,55 @@ document.addEventListener('DOMContentLoaded', function () {
     // Contact Form Handling
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
+        // Дефинираме всички полета тук, за да са достъпни навсякъде
         const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const messageInput = document.getElementById('message');
 
-        // Добавяме слушател, който не позволява въвеждането на невалидни символи
-        if(nameInput) {
+        // Слушател, който не позволява въвеждането на невалидни символи в името
+        if (nameInput) {
             nameInput.addEventListener('input', function () {
-                // Премахваме всички символи, които не са букви (кирилица и латиница), интервал или тире
                 this.value = this.value.replace(/[^a-zA-Zа-яА-Я\s\-]/g, '');
             });
         }
 
-        function validateEmailStrict(email) {
-            // Този RegEx е много по-обхватен и стриктен
-            const emailRegex = new RegExp(
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            );
-            return emailRegex.test(String(email).toLowerCase());
+        // Слушател, който изчиства персонализираната грешка за имейл,
+        // веднага щом потребителят започне да го коригира.
+        if (emailInput) {
+            emailInput.addEventListener('input', function() {
+                emailInput.setCustomValidity(''); // Ключова стъпка: изчиства грешката
+            });
         }
 
+        // Логика при изпращане на формата
         contactForm.addEventListener('submit', async function (e) {
-            e.preventDefault(); // Prevent the default form submission
+            e.preventDefault(); // Спираме презареждането на страницата
 
-            const name = document.getElementById('name').value;
-            const emailInput = document.getElementById('email');
+            const name = nameInput.value;
             const email = emailInput.value;
-            const message = document.getElementById('message').value;
+            const message = messageInput.value;
 
-            // Basic validation
+            // Обща проверка дали полетата са попълнени. Ако не са, показваме балонче.
             if (!name.trim() || !email.trim() || !message.trim()) {
-                alert('Моля, попълнете всички полета.');
+                if (!name.trim()) nameInput.reportValidity();
+                else if (!email.trim()) emailInput.reportValidity();
+                else messageInput.reportValidity();
                 return;
             }
 
-            if (!emailInput.checkValidity()) {
+            // Стриктна проверка за валидност на имейла
+            const strictEmailPattern = /^[^\s@]+@[^\s@.]+\.[^\s@.]{2,}$/;
+            if (!strictEmailPattern.test(email)) {
+                // Задаваме персонализирано съобщение за грешка
+                emailInput.setCustomValidity('Моля, въведете същестуващ имейл адрес.');
+                
+                // Казваме на браузъра да покаже балончето с нашето съобщение
                 emailInput.reportValidity();
-                return; 
+                
+                return; // Спираме изпълнението
             }
 
-            // 2. Втора, стриктна проверка с новата функция
-            if (!validateEmailStrict(email)) {
-                alert('Моля, въведете валиден имейл адрес. Проверете дали домейнът (напр. .com, .bg) е коректен.');
-                emailInput.focus(); // Фокусираме отново върху полето за имейл
-                return;
-            }
-
+            // Ако всичко е наред, продължаваме с изпращането
             const submitButton = contactForm.querySelector('button[type="submit"]');
             submitButton.disabled = true;
             submitButton.textContent = 'Изпращане...';
@@ -73,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 const result = await response.json();
 
                 if (!response.ok) {
-                    // Ако сървърът върне грешка, я показваме
                     throw new Error(result.error || 'Неуспешно изпращане на съобщението.');
                 }
 
@@ -84,32 +88,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error submitting contact form:', error);
                 alert(`Възникна грешка: ${error.message}`);
             } finally {
-                // Връщаме бутона в нормално състояние
                 submitButton.disabled = false;
                 submitButton.textContent = 'Изпрати';
             }
         });
-    }
-    
-    // --- ЛОГИКА ЗА ЧАТБОТ АСИСТЕНТА ---
-    const chatbotToggleBtn = document.getElementById('chatbot-toggle-btn');
-    const chatbotContainer = document.getElementById('chatbot-container');
-    const chatbotCloseBtn = document.getElementById('chatbot-close-btn');
-    const floatingActions = document.querySelector('.floating-actions');
-
-    // Проверяваме дали всички елементи на чатбота съществуват
-    if (chatbotToggleBtn && chatbotContainer && chatbotCloseBtn && floatingActions) {
-        function openChatbot() {
-            chatbotContainer.classList.add('is-open');
-            floatingActions.classList.add('hidden'); // Скриваме бутона
-        }
-
-        function closeChatbot() {
-            chatbotContainer.classList.remove('is-open');
-            floatingActions.classList.remove('hidden'); // Показваме бутона отново
-        }
-
-        chatbotToggleBtn.addEventListener('click', openChatbot);
-        chatbotCloseBtn.addEventListener('click', closeChatbot);
     }
 });
