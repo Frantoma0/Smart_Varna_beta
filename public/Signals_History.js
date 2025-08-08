@@ -86,50 +86,18 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         map.addLayer(clusterMarkers);
-
-        function interpolate(value, in_min, in_max, out_min, out_max) {
-            // Гарантираме, че стойността е в рамките на входния обхват
-            const clampedValue = Math.max(in_min, Math.min(value, in_max));
-            return out_min + (clampedValue - in_min) * (out_max - out_min) / (in_max - in_min);
-        }
         
-        // 2. Дефинираме обхватите, които ще управляваме
-        const zoomRange = { min: 10, max: 24 }; // Обхват на мащаба, който ни интересува
-        const radiusRange = { min: 8, max: 35 }; // Как искаме да се променя радиусът
-        const blurRange = { min: 1, max: 24 };   // Как искаме да се променя размазването
-        
-        // 3. Дефинираме константите, които не се променят
-        const constantHeatOptions = {
-            max: 10.0, // Агресивен 'max', за да се вижда червеното ВИНАГИ
+        // 5. Инициализираме топлинния слой с правилните настройки за началния мащаб
+         const heatLayer = L.heatLayer([], {
+            radius: 25,
+            blur: 15,
+            max: 10.0,
             minOpacity: 0.7,
             gradient: {
                 0.1:  '#3C3586', 0.25: '#5790F7', 0.4:  '#7EF394',
                 0.6:  '#E8D358', 0.75: '#E97E38', 0.9:  '#C12A1F',
                 1.0:  '#791C0D'
             }
-        };
-        
-        // 4. Функция, която изчислява перфектните настройки за всяко ниво на мащабиране
-        function getHeatOptionsForZoom(zoom) {
-            const radius = interpolate(zoom, zoomRange.min, zoomRange.max, radiusRange.min, radiusRange.max);
-            const blur = interpolate(zoom, zoomRange.min, zoomRange.max, blurRange.min, blurRange.max);
-            
-            return {
-                ...constantHeatOptions, // Взимаме константите
-                radius: radius,         // и добавяме изчислените стойности
-                blur: blur
-            };
-        }
-        
-        // 5. Инициализираме топлинния слой с правилните настройки за началния мащаб
-        const initialHeatOptions = getHeatOptionsForZoom(map.getZoom());
-        const heatLayer = L.heatLayer([], initialHeatOptions);
-        
-        // 6. Свързваме всичко със събитието за промяна на мащаба
-        map.on('zoomend', function () {
-            const currentZoom = map.getZoom();
-            const newOptions = getHeatOptionsForZoom(currentZoom);
-            heatLayer.setOptions(newOptions);
         });
         
         // --- НОВО: Функция за определяне на спешност по тежест ---
