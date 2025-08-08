@@ -42,9 +42,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const filterPanel = document.getElementById('filter-panel');
         const applyFiltersBtn = document.getElementById('apply-filters-btn');
         const clearFiltersBtn = document.getElementById('clear-filters-btn');
-        const confirmationModalOverlay = document.getElementById('confirmation-modal-overlay');
-        const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
-        const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
         const heatmapToggleBtn = document.getElementById('heatmap-toggle-btn');
         const heatmapToggleIcon = document.getElementById('heatmap-toggle-icon');
         const dateSliderElement = document.getElementById('date-slider');
@@ -225,11 +222,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             <div style="font-size: 13px; color: #6b7280; margin-bottom: 6px;">
                                 <span style="font-weight: 500;">Адрес:</span> ${signal.adress || 'Няма адрес'}
                             </div>
-                            <div style="margin-top: 12px; border-top: 1px solid #f3f4f6; padding-top: 10px; text-align: center;">
-                                <button class="popup-details-btn" data-signal-id="${signal.tracking_code}" style="background-color: #263A8D; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; width: 100%;">
-                                    Преглед на сигнала
-                                </button>
-                            </div>
+                            <div style="margin-top: 12px; border-top: 1px solid #f3f4f6; padding-top: 10px;">
+                            <button class="popup-details-btn" data-signal-id="${signal.tracking_code}" style="display: block; margin: 0 auto; background-color: #263A8D; color: white; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600;">
+                                Преглед на сигнала
+                            </button>
                         </div>
                     `, { maxWidth: 300, className: 'custom-popup' });
                     clusterMarkers.addLayer(marker);
@@ -565,11 +561,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div style="font-size: 13px; color: #6b7280; margin-bottom: 6px;">
                         <span style="font-weight: 500;">Адрес:</span> ${signal.adress || 'Няма адрес'}
                     </div>
-                    <div style="margin-top: 12px; border-top: 1px solid #f3f4f6; padding-top: 10px; text-align: center;">
-                        <button class="popup-details-btn" data-signal-id="${signal.tracking_code}" style="background-color: #263A8D; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; width: 100%;">
-                            Преглед на сигнала
-                        </button>
-                    </div>
+                    <div style="margin-top: 12px; border-top: 1px solid #f3f4f6; padding-top: 10px;">
+                    <button class="popup-details-btn" data-signal-id="${signal.tracking_code}" style="display: block; margin: 0 auto; background-color: #263A8D; color: white; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600;">
+                        Преглед на сигнала
+                    </button>
                 </div>
             `, { maxWidth: 300, className: 'custom-popup' });
             return marker; // ВРЪЩА МАРКЕРА
@@ -612,11 +607,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div style="font-size: 13px; color: #6b7280; margin-bottom: 6px;">
                         <span style="font-weight: 500;">Адрес:</span> ${signal.adress || 'Няма адрес'}
                     </div>
-                    <div style="margin-top: 12px; border-top: 1px solid #f3f4f6; padding-top: 10px; text-align: center;">
-                        <button class="popup-details-btn" data-signal-id="${signal.tracking_code}" style="background-color: #263A8D; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; width: 100%;">
-                            Преглед на сигнала
-                        </button>
-                    </div>
+                    <div style="margin-top: 12px; border-top: 1px solid #f3f4f6; padding-top: 10px;">
+                    <button class="popup-details-btn" data-signal-id="${signal.tracking_code}" style="display: block; margin: 0 auto; background-color: #263A8D; color: white; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600;">
+                        Преглед на сигнала
+                    </button>
                 </div>
             `, { maxWidth: 300, className: 'custom-popup' });
             clusterMarkers.addLayer(marker);
@@ -700,10 +694,9 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                         </div>
                         <div class="flex items-center space-x-2 flex-shrink-0">
-                            ${locationButtonHtml}                            
-                            <button class="p-2 text-gray-500 hover:text-red-600 signal-delete-btn" title="Изтрий сигнал"><i class="fas fa-trash-alt"></i></button>
-                            <svg class="w-6 h-6 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
+                        ${locationButtonHtml}
+                        <svg class="w-6 h-6 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
                     </div>
                     <div class="signal-details hidden mt-4 pt-4 border-t border-gray-200">
                         <div class="flex items-start gap-4">
@@ -732,7 +725,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const signalId = signalCard.getAttribute('data-id');
             const thumbContainer = target.closest('.photo-thumb-container');
-            const deleteBtn = target.closest('.signal-delete-btn');
             const locationBtn = target.closest('.signal-location-btn');
             const copyBtn = target.closest('.copy-code-btn');
             const toggleArea = target.closest('.signal-toggle');
@@ -775,53 +767,49 @@ document.addEventListener('DOMContentLoaded', function () {
                         document.body.classList.remove('modal-open');
                     };
                 }
-            } else if (e.target.closest('.signal-delete-btn')) {
-            // ▲▲▲ КРАЙ НА СЕКЦИЯТА ЗА ЗАМЯНА ▲▲▲
-                e.stopPropagation();
-                cardToRemove = signalCard;
-                confirmationModalOverlay.classList.remove('hidden');
-            
             } else if (e.target.closest('.signal-location-btn')) {
                 e.stopPropagation();
                 if(isHeatmapVisible) return; // Не прави нищо, ако сме на топлинна карта
                 
                 const marker = markersMap[signalId];
                 if (marker) {
-                    // Взимаме координатите на маркера
                     const targetLatLng = marker.getLatLng();
-                    // Задаваме висок зуум, за да сме сигурни, че клъстерът ще се разбие
-                    const targetZoom = 18; 
+                    // Определяме междинен зуум, който е по-голям от сегашния, но не максимален
+                    const intermediateZoom = Math.max(map.getZoom(), 16);
 
-                    // Казваме на картата да "прелети" до там с плавна анимация
-                    map.flyTo(targetLatLng, targetZoom, {
-                        duration: 1.2 // Продължителност на анимацията в секунди
+                    // 1. Изпълняваме плавното "прелитане" до района на маркера
+                    map.flyTo(targetLatLng, intermediateZoom, {
+                        duration: 0.8 // Може да регулирате скоростта
                     });
 
-                    // Изчакваме анимацията по мащабиране да приключи...
-                    map.once('zoomend', () => {
-                        // ...и чак тогава отваряме Popup-а и пускаме анимацията
-                        marker.openPopup();
-                        const iconElement = marker._icon;
-                        if (iconElement) {
-                            iconElement.classList.add('marker-located');
-                            setTimeout(() => iconElement.classList.remove('marker-located'), 1000);
-                        }
+                    // 2. СЛЕД като "полетът" приключи...
+                    map.once('moveend', () => {
+                        // 3. ...използваме надеждния метод, за да направим финалното показване
+                        clusterMarkers.zoomToShowLayer(marker, () => {
+                            // Този код е гарантирано, че ще се изпълни, когато маркерът е видим
+                            marker.openPopup();
+                            const iconElement = marker._icon;
+                            if (iconElement) {
+                                iconElement.classList.add('marker-located');
+                                setTimeout(() => iconElement.classList.remove('marker-located'), 1000);
+                            }
+                        });
                     });
                 }
-            // ▲▲▲ КРАЙ НА СЕКЦИЯТА ЗА ЗАМЯНА ▲▲▲
+                // ▲▲▲ КРАЙ НА СЕКЦИЯТА ЗА ЗАМЯНА ▲▲▲
 
-            } else if (e.target.closest('.copy-code-btn')) {
-                e.stopPropagation();
-                const copyBtn = e.target.closest('.copy-code-btn');
-                navigator.clipboard.writeText(signalId).then(() => {
-                    copyBtn.innerHTML = 'Копирано! <i class="fas fa-check ml-1"></i>';
-                    setTimeout(() => { copyBtn.innerHTML = 'Копирай <i class="fas fa-copy ml-1"></i>'; }, 2000);
-                });
-            } else if (e.target.closest('.signal-toggle')) {
-                signalCard.querySelector('.signal-details')?.classList.toggle('hidden');
-                signalCard.querySelector('svg.transition-transform')?.classList.toggle('rotate-180');
-            }
-        });
+                } else if (e.target.closest('.copy-code-btn')) {
+                    e.stopPropagation();
+                    const copyBtn = e.target.closest('.copy-code-btn');
+                    navigator.clipboard.writeText(signalId).then(() => {
+                        copyBtn.innerHTML = 'Копирано! <i class="fas fa-check ml-1"></i>';
+                        setTimeout(() => { copyBtn.innerHTML = 'Копирай <i class="fas fa-copy ml-1"></i>'; }, 2000);
+                    });
+                } else if (e.target.closest('.signal-toggle')) {
+                    signalCard.querySelector('.signal-details')?.classList.toggle('hidden');
+                    signalCard.querySelector('svg.transition-transform')?.classList.toggle('rotate-180');
+                }
+            });
 
 
         searchInput.addEventListener('input', () => applyFiltersAndRender());
@@ -853,27 +841,6 @@ document.addEventListener('DOMContentLoaded', function () {
             filterPanel.classList.add('hidden');
             filterToggleBtn.classList.remove('bg-gray-100');
             applyFiltersAndRender();
-        });
-
-        function hideModal() {
-            confirmationModalOverlay.classList.add('hidden');
-            cardToRemove = null;
-        }
-        cancelDeleteBtn.addEventListener('click', hideModal);
-        confirmationModalOverlay.addEventListener('click', (event) => {
-            if (event.target === confirmationModalOverlay) hideModal();
-        });
-        
-        // *** ПОДОБРЕНО: Коректна логика за изтриване ***
-        confirmDeleteBtn.addEventListener('click', () => {
-            if (cardToRemove) {
-                const cardId = cardToRemove.getAttribute('data-id');
-                // Премахва сигнала от основния масив с данни
-                allSignals = allSignals.filter(s => s.tracking_code !== cardId);
-                // Презарежда списъка, за да отрази промяната
-                applyFiltersAndRender();
-            }
-            hideModal();
         });
 
         setupPhotoModalCloseListeners();
