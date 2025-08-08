@@ -265,6 +265,25 @@ body.modal-open {
     border-left-color: #3b82f6 !important; /* По-силен син бордър, който да презапише статуса */
 }
 
+.custom-popup .leaflet-popup-close-button {
+    position: absolute;
+    top: 5px !important;
+    right: 5px !important;
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 18px !important;
+    line-height: 24px !important;
+    color: #666 !important;
+    background: transparent !important;
+    border-radius: 4px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.custom-popup .leaflet-popup-close-button:hover {
+    color: #333 !important;
+    background-color: #f0f0f0 !important;
+}
+
 /* Стил за резервния "!" символ */
 .marker-fallback-icon {
     color: white;
@@ -549,65 +568,114 @@ body.modal-open {
     transform: translateY(-8px) rotate(-45deg);
 }
 }
+/* Добавете това в края на вашия Signals_History.css файл */
+
+/* Мобилно скалиране на popup прозореца - съразмерно намаляване по диагонал */
 @media (max-width: 768px) {
+    /* Още по-леко скалиране - 90% за още по-голям размер */
+    /* Още по-големи основни размери */
     .custom-popup .leaflet-popup-content {
-        width: 250px !important; /* Намалена ширина за мобилни */
+        width: 240px !important; /* УВЕЛИЧЕНО от 220px на 240px */
+        font-size: 0.95rem !important; /* УВЕЛИЧЕНО от 0.9rem */
+        line-height: 1.4; /* УВЕЛИЧЕНО от 1.35 */
     }
-
-    .popup-header {
-        padding: 10px 12px;
-        padding-right: 35px;
+    
+    /* По-големи заглавия */
+    .custom-popup .leaflet-popup-content > div > div:first-child {
+        font-size: 16px !important; /* УВЕЛИЧЕНО от 15px */
+        margin-bottom: 10px !important; /* УВЕЛИЧЕНО от 9px */
+        padding-bottom: 6px !important; /* УВЕЛИЧЕНО от 5px */
     }
-
-    .popup-title {
-        font-size: 15px;
+    
+    /* По-големо описание */
+    .custom-popup .leaflet-popup-content > div > div:nth-child(2) {
+        font-size: 14px !important; /* УВЕЛИЧЕНО от 13px */
+        margin-bottom: 12px !important; /* УВЕЛИЧЕНО от 11px */
     }
-
-    .popup-tracking-code {
-        font-size: 12px;
+    
+    /* По-голям badge за спешност */
+    .custom-popup .leaflet-popup-content > div > div:nth-child(3) span:last-child {
+        padding: 3px 8px !important; /* УВЕЛИЧЕНО от 2px 7px */
+        font-size: 12px !important; /* УВЕЛИЧЕНО от 11px */
     }
-
-    .popup-body {
-        padding: 10px 12px;
-        gap: 8px;
+    
+    /* По-голям адрес */
+    .custom-popup .leaflet-popup-content > div > div:nth-child(4) {
+        font-size: 13px !important; /* УВЕЛИЧЕНО от 12px */
+        margin-bottom: 7px !important; /* УВЕЛИЧЕНО от 6px */
     }
-
-    .popup-field {
-        gap: 2px;
+    
+    /* ЦЕНТРИРАН МАЛЪК БУТОН */
+    .custom-popup .popup-details-btn,
+    .custom-popup button[data-signal-id] {
+        padding: 5px 10px !important; /* Леко увеличено за по-добро натискане */
+        font-size: 11px !important; /* Леко увеличено от 10px */
+        border-radius: 4px !important; /* Върнато на 4px */
+        display: block !important; /* ВАЖНО: за центриране */
+        margin: 0 auto !important; /* ЦЕНТРИРА БУТОНА */
+        width: auto !important; /* Не заема цялата ширина */
+        text-align: center !important; /* Центрира текста */
     }
-
-    .popup-details-label {
-        font-size: 11px;
+    
+    /* По-голям footer */
+    .custom-popup .leaflet-popup-content > div > div:last-child {
+        margin-top: 12px !important; /* УВЕЛИЧЕНО от 11px */
+        padding-top: 10px !important; /* УВЕЛИЧЕНО от 9px */
+        text-align: center !important; /* ЦЕНТРИРА ЦЕЛИЯ FOOTER */
     }
-
-    .popup-description,
-    .popup-details-value {
-        font-size: 12px;
-    }
-
-    .popup-urgency-badge {
-        padding: 2px 8px;
-        font-size: 10px;
-    }
-
-    .popup-footer {
-        padding: 0 12px 10px 12px;
-    }
-
-    .popup-action-btn {
-        padding: 8px 12px;
-        font-size: 12px;
-        border-radius: 6px;
-    }
-
     .custom-popup .leaflet-popup-close-button {
-        top: 5px;
-        right: 5px;
-        width: 26px;
-        height: 26px;
-        font-size: 18px;
-        line-height: 26px;
+        position: absolute !important; /* <-- ДОБАВЕН РЕД */
+        width: 20px !important;
+        height: 20px !important;
+        font-size: 16px !important;
+        line-height: 20px !important;
+        top: 4px !important;
+        right: 4px !important;
+        font-weight: bold !important;
+        color: #666 !important;
     }
+}
+
+/* За много малки екрани (под 480px) - по-голям размер с центрирани малки контроли */
+@media (max-width: 480px) {
+    /* По-леко скалиране - 80% за по-голям размер */
+    /* По-големи размери */
+    .custom-popup .leaflet-popup-content {
+        width: 220px !important; /* УВЕЛИЧЕНО от 200px */
+        font-size: 0.9rem !important; /* УВЕЛИЧЕНО от 0.85rem */
+    }
+    
+    /* По-големи шрифтове */
+    .custom-popup .leaflet-popup-content > div > div:first-child {
+        font-size: 15px !important; /* УВЕЛИЧЕНО от 14px */
+    }
+    
+    .custom-popup .leaflet-popup-content > div > div:nth-child(2) {
+        font-size: 13px !important; /* УВЕЛИЧЕНО от 12px */
+    }
+    
+    /* ЦЕНТРИРАН МАЛЪК БУТОН */
+    .custom-popup button[data-signal-id] {
+        font-size: 10px !important; /* Леко увеличено от 9px */
+        padding: 4px 8px !important; /* Леко увеличено от 3px 6px */
+        border-radius: 3px !important;
+        display: block !important; /* ЦЕНТРИРАНЕ */
+        margin: 0 auto !important; /* ЦЕНТРИРАНЕ */
+        width: auto !important;
+        text-align: center !important;
+    }
+    .custom-popup .leaflet-popup-close-button {
+        position: absolute !important; /* <-- ДОБАВЕН РЕД */
+        width: 18px !important;
+        height: 18px !important;
+        font-size: 14px !important;
+        line-height: 18px !important; 
+        top: 3px !important;
+        right: 3px !important;
+        font-weight: bold !important;
+        color: #666 !important;
+    }
+    
 }
 
 .modal-content.loading::before {
