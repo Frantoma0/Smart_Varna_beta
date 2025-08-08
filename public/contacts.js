@@ -22,6 +22,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.value = this.value.replace(/[^a-zA-Zа-яА-Я\s\-]/g, '');
             });
         }
+
+        function validateEmailStrict(email) {
+            // Този RegEx е много по-обхватен и стриктен
+            const emailRegex = new RegExp(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+            return emailRegex.test(String(email).toLowerCase());
+        }
+
         contactForm.addEventListener('submit', async function (e) {
             e.preventDefault(); // Prevent the default form submission
 
@@ -37,8 +46,15 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             if (!emailInput.checkValidity()) {
-                emailInput.reportValidity(); // Това ще покаже съобщението в стил балонче
+                emailInput.reportValidity();
                 return; 
+            }
+
+            // 2. Втора, стриктна проверка с новата функция
+            if (!validateEmailStrict(email)) {
+                alert('Моля, въведете валиден имейл адрес. Проверете дали домейнът (напр. .com, .bg) е коректен.');
+                emailInput.focus(); // Фокусираме отново върху полето за имейл
+                return;
             }
 
             const submitButton = contactForm.querySelector('button[type="submit"]');
