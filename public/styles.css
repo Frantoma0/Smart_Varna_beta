@@ -139,24 +139,23 @@ body {
 .hamburger {
     display: none;
     flex-direction: column;
+    gap: 5px; /* Промяна от vh на px */
     cursor: pointer;
-    gap: 0.5vh;
     z-index: 1100;
-    padding: 1vh;
+    padding: 10px; /* По-консистентен паддинг */
 }
 
 .hamburger div {
-    width: 2vw;
-    height: 0.3vh;
-    min-width: 20px;
-    min-height: 2px;
+    width: 25px; /* Фиксирана ширина */
+    height: 3px; /* Фиксирана височина */
     background-color: white;
-    border-radius: 0.3vh;
+    border-radius: 3px;
     transition: all 0.3s ease-in-out;
 }
 
 .hamburger.active div:nth-child(1) {
-    transform: translateY(0.85vh) rotate(45deg);
+    /* Отместването (8px) е равно на gap (5px) + височината на средния елемент (3px) */
+    transform: translateY(8px) rotate(45deg);
 }
 
 .hamburger.active div:nth-child(2) {
@@ -164,7 +163,7 @@ body {
 }
 
 .hamburger.active div:nth-child(3) {
-    transform: translateY(-0.85vh) rotate(-47deg);
+    transform: translateY(-8px) rotate(-45deg); /* Симетричен ъгъл */
 }
 
 /* Animation Scan Magnifier */
@@ -813,7 +812,7 @@ body {
         padding: 15px 20px;
     }
 
-        .nav-menu {
+    .nav-menu {
         display: none;
         flex-direction: column;
         width: 160px;
@@ -824,7 +823,7 @@ body {
         padding: 20px 0;
          border-radius: 0 0 4px 4px;
     }
-    
+
     .nav-menu.active {
         display: flex;
     }
@@ -836,23 +835,10 @@ body {
     }
 
     .hamburger {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    }
-    
-    /* Тези стилове са за анимацията на "X" */
-    .hamburger.active div:nth-child(1) {
-        transform: translateY(0.85vh) rotate(45deg);
-    }
-    
-    .hamburger.active div:nth-child(2) {
-        opacity: 0;
-    }
-    
-    .hamburger.active div:nth-child(3) {
-        transform: translateY(-0.85vh) rotate(-47deg);
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
     }
 
     .user-section {
@@ -1045,5 +1031,4 @@ body {
     .arrow-down {
         display: none;
     }
-
 }
