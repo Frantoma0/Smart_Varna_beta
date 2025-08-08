@@ -737,22 +737,50 @@ document.addEventListener('DOMContentLoaded', function () {
             const copyBtn = target.closest('.copy-code-btn');
             const toggleArea = target.closest('.signal-toggle');
 
+            // ▼▼▼ ЗАПОЧВА СЕКЦИЯТА ЗА ЗАМЯНА ▼▼▼
             if (e.target.closest('.photo-thumb-container')) {
                 e.stopPropagation();
                 const modal = document.getElementById('photo-modal');
                 const modalImg = document.getElementById('modal-photo-img');
+                const modalContent = modal.querySelector('.modal-content');
                 const url = e.target.closest('.photo-thumb-container').dataset.imageUrl;
+            
                 if (modal && modalImg && url) {
-                    modalImg.src = url;
+                    // 1. Показваме модала и индикатора за зареждане ВЕДНАГА.
+                    modalImg.src = ''; // Нулираме src, за да не показва стара снимка.
+                    modalImg.classList.add('hidden'); // Скриваме празния img таг.
+                    modalContent.classList.add('loading'); // Показваме спинър чрез CSS.
                     modal.classList.remove('hidden');
-                    document.body.classList.add('modal-open'); // <-- ДОБАВЕН РЕД
+                    document.body.classList.add('modal-open');
+            
+                    // 2. Създаваме нов обект Image, за да заредим снимката във фон.
+                    const preloader = new Image();
+                    preloader.src = url;
+            
+                    // 3. Когато снимката е напълно заредена в кеша на браузъра...
+                    preloader.onload = () => {
+                        // ... я задаваме като източник на видимия img таг.
+                        modalImg.src = url;
+                        // Показваме изображението и скриваме спинъра.
+                        modalContent.classList.remove('loading');
+                        modalImg.classList.remove('hidden');
+                    };
+            
+                    // 4. (По избор) При грешка при зареждане.
+                    preloader.onerror = () => {
+                        console.error("Грешка при зареждане на снимката.");
+                        modalContent.classList.remove('loading');
+                        // Затваряме модала, тъй като снимката не може да се зареди.
+                        modal.classList.add('hidden');
+                        document.body.classList.remove('modal-open');
+                    };
                 }
             } else if (e.target.closest('.signal-delete-btn')) {
+            // ▲▲▲ КРАЙ НА СЕКЦИЯТА ЗА ЗАМЯНА ▲▲▲
                 e.stopPropagation();
                 cardToRemove = signalCard;
                 confirmationModalOverlay.classList.remove('hidden');
             
-            // ▼▼▼ ЗАПОЧВА СЕКЦИЯТА ЗА ЗАМЯНА ▼▼▼
             } else if (e.target.closest('.signal-location-btn')) {
                 e.stopPropagation();
                 if(isHeatmapVisible) return; // Не прави нищо, ако сме на топлинна карта
