@@ -175,22 +175,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function showStep(stepNumber) {
-        if (stepNumber === 1) {
+    if (stepNumber === 1) {
         step1.classList.remove('hidden');
         step2.classList.add('hidden');
-        backToStep1Btn.classList.add('hidden');
-        titleSpacer.classList.add('hidden'); // Скриваме и спейсъра
+        backToStep1Btn.style.visibility = 'hidden'; // Използваме visibility
+        titleSpacer.style.visibility = 'hidden';   // Използваме visibility
         stepIndicator1.classList.add('active');
         stepIndicator2.classList.remove('active');
-        } else if (stepNumber === 2) {
+    } else if (stepNumber === 2) {
         step1.classList.add('hidden');
         step2.classList.remove('hidden');
-        backToStep1Btn.classList.remove('hidden');
-        titleSpacer.classList.remove('hidden'); // Показваме и спейсъра
+        backToStep1Btn.style.visibility = 'visible'; // Използваме visibility
+        titleSpacer.style.visibility = 'visible';  // Използваме visibility
         stepIndicator1.classList.remove('active');
         stepIndicator2.classList.add('active');
-        }
-        }
+    }
+    }
 
     function panToLocationAndProceed(lat, lng, address, description, institution) {
         const dropzone = document.getElementById('dropzone');
@@ -849,4 +849,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
     populateInstitutions();
 });
+
 
