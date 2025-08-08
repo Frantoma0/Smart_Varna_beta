@@ -605,21 +605,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     ? `${imageUrl}?transform=w_100,h_100,c_cover` // w=width, h=height, c=cover(crop)
                     : '';
                 
-                const thumbnailHtml = imageUrl ?
-                    `<div class="photo-thumb-container" data-image-url="${imageUrl}">
-                        <img src="${thumbnailUrl}" alt="Миниатюра" class="w-12 h-12 object-cover rounded-md border border-gray-200 hover:opacity-80 transition-opacity">
+                    const thumbnailHtml = imageUrl ?
+                    `<div class="photo-thumb-container flex-shrink-0" data-image-url="${imageUrl}">
+                        <img src="${thumbnailUrl}" alt="Миниатюра" class="w-16 h-16 object-cover rounded-md border border-gray-200 hover:opacity-80 transition-opacity">
                      </div>` :
                     '';
 
-                    const isActiveOnMap = (dbStatus === 'in_progress' || dbStatus === 'received') && signal.latitude && signal.longitude;
+                const isActiveOnMap = (dbStatus === 'in_progress' || dbStatus === 'received') && signal.latitude && signal.longitude;
                 const locationButtonHtml = isActiveOnMap
                     ? `<button class="p-2 text-gray-500 hover:text-blue-600 signal-location-btn" title="Покажи на картата"><i class="fas fa-map-marker-alt"></i></button>`
                     : `<div class="p-2 w-[36px]"></div>`;
 
-                // *** ПОДОБРЕНО: HTML с бутон за копиране и по-добра структура ***
+                // ПРОМЯНА: Преструктуриран HTML, за да използва flexbox за подравняване
                 signalCard.innerHTML = `
                     <div class="flex justify-between items-start cursor-pointer signal-toggle">
-                        <div class="pr-4">
+                        <div class="pr-4 flex-grow min-w-0">
                             <h3 class="text-lg font-bold text-gray-800">${synthesizedTitle}</h3>
                             <div class="flex items-center mt-1 gap-2 flex-wrap">
                                 <span class="text-sm text-gray-500">${time} ${date}</span>
@@ -627,26 +627,29 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                         </div>
                         <div class="flex items-center space-x-2 flex-shrink-0">
-                        ${locationButtonHtml}                            
-                        <button class="p-2 text-gray-500 hover:text-red-600 signal-delete-btn" title="Изтрий сигнал"><i class="fas fa-trash-alt"></i></button>
+                            ${locationButtonHtml}                            
+                            <button class="p-2 text-gray-500 hover:text-red-600 signal-delete-btn" title="Изтрий сигнал"><i class="fas fa-trash-alt"></i></button>
                             <svg class="w-6 h-6 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
                     </div>
-                    <div class="signal-details hidden mt-4 pt-4 border-t border-gray-200 relative">
-                        ${thumbnailHtml}
-                        <p class="text-gray-700 mb-3"><span class="font-semibold">Описание:</span> ${descriptionText}</p>
-                        <p class="text-gray-700 mb-3"><span class="font-semibold">Институция:</span> ${institution}</p>
-                        <p class="text-gray-700 mb-3"><span class="font-semibold">Адрес:</span> ${address}</p>
+                    <div class="signal-details hidden mt-4 pt-4 border-t border-gray-200">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-grow min-w-0">
+                                <p class="text-gray-700 mb-3"><span class="font-semibold">Описание:</span> ${descriptionText}</p>
+                                <p class="text-gray-700 mb-3"><span class="font-semibold">Институция:</span> ${institution}</p>
+                                <p class="text-gray-700 mb-3"><span class="font-semibold">Адрес:</span> ${address}</p>
+                            </div>
+                            ${thumbnailHtml}
+                        </div>
                         <div class="flex justify-between items-center mt-4">
-                            <p class="text-gray-600"><span class="font-semibold">Код за проследяване:</span> ${trackingCode}</p>
-                            <button class="text-blue-600 hover:text-blue-800 font-medium flex items-center copy-code-btn">Копирай <i class="fas fa-copy ml-1"></i></button>
+                            <p class="text-gray-600 flex-grow min-w-0 mr-4"><span class="font-semibold">Код за проследяване:</span> <span class="break-all">${trackingCode}</span></p>
+                            <button class="text-blue-600 hover:text-blue-800 font-medium flex items-center copy-code-btn flex-shrink-0">Копирай <i class="fas fa-copy ml-1"></i></button>
                         </div>
                     </div>
                 `;
                 signalsContainer.appendChild(signalCard);
             });
         }
-
         // *** ПОДОБРЕНО: Логика за всички бутони, включително копиране и показване на картата ***
         // *** ПОДОБРЕНО: Логика за всички бутони, включително копиране и показване на картата ***
         signalsContainer.addEventListener('click', (e) => {
@@ -666,7 +669,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 const modal = document.getElementById('photo-modal');
                 const modalImg = document.getElementById('modal-photo-img');
                 const url = e.target.closest('.photo-thumb-container').dataset.imageUrl;
-                if (modal && modalImg && url) { modalImg.src = url; modal.classList.remove('hidden'); }
+                if (modal && modalImg && url) {
+                    modalImg.src = url;
+                    modal.classList.remove('hidden');
+                    document.body.classList.add('modal-open'); // <-- ДОБАВЕН РЕД
+                }
             } else if (e.target.closest('.signal-delete-btn')) {
                 e.stopPropagation();
                 cardToRemove = signalCard;
@@ -805,6 +812,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (closeModalBtn && photoModal && modalImg) {
             const close = () => {
                 photoModal.classList.add('hidden');
+                document.body.classList.remove('modal-open'); // <-- ДОБАВЕН РЕД
                 modalImg.src = ''; // Изчиства снимката, за да не се показва стара при следващо отваряне
             };
             closeModalBtn.addEventListener('click', close);
