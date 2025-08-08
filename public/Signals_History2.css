@@ -1,0 +1,500 @@
+.main-content-signals {
+    display: flex;
+    gap: 2vw;
+    max-width: 90vw;
+    margin: 2rem auto;
+    justify-content: center;
+    align-items: stretch;
+    max-height: calc(100vh - 150px);
+    overflow: hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: #FEFDFA;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.header {
+    background: linear-gradient(to left, #283BAF 0%, #263987 48%, #211B52 100%);
+    padding: 1vh 2vw;
+    border-radius: 1.5vw;
+    margin: 1vh 1.5vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 0.4vh 1.5vh rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    position: relative;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 6vw;
+    height: 4vh;
+    min-width: 70px;
+    min-height: 40px;
+    max-width: 100px;
+    max-height: 60px;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 2vw;
+    margin-left: 2vw;
+}
+
+.map-title {
+    font-size: clamp(30px, 1.8vw, 24px);
+    font-weight: 700;
+    color: #263A8D;
+    margin-bottom: 0; /* Премахваме margin, за да се подравни по-добре */
+    margin-right: auto; /* Избутва контролите надясно */
+}
+
+/* НОВО: Стилове за заглавката на картата и контролите */
+.map-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.map-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* Разстояние между бутоните */
+}
+
+.date-slider-wrapper {
+    width: 100%; /* Позволява му да се свива на по-малки екрани */
+    max-width: 230px; /* Ограничава максималната му ширина */
+    text-align: center;
+}
+
+
+/* Стил на самия плъзгач от библиотеката */
+#date-slider {
+    height: 8px;
+}
+#date-slider .noUi-connect {
+    background: #263A8D;
+}
+#date-slider .noUi-handle {
+    height: 20px;
+    width: 20px;
+    top: -7px;
+    right: -10px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    cursor: grab;
+}
+#date-slider .noUi-handle:focus {
+    outline: none;
+}
+#date-slider .noUi-handle::before,
+#date-slider .noUi-handle::after {
+    display: none; /* Махаме стандартните чертички */
+}
+
+.map-control-btn, .map-control-select {
+    padding: 0.9rem;
+    border: 1px solid #d1d5db; /* Сива рамка */
+    border-radius: 0.5rem; /* Заоблени ъгли */
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+}
+
+.map-control-btn:hover, .map-control-select:hover {
+    border-color: #3b82f6; /* Синя рамка при hover */
+    background-color: #f9fafb; /* Много светъл фон при hover */
+}
+
+.map-control-btn.active {
+    background-color: #263A8D; /* Син фон за активен бутон */
+    border-color: #263A8D;
+}
+
+.map-control-btn.active img {
+    filter: brightness(0) invert(1); /* Прави иконата бяла, когато бутонът е активен */
+}
+
+.nav-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 3.5vh;
+    padding: 0 0.8vw;
+    color: white;
+    text-decoration: none;
+    border-radius: 0.6vw;
+    transition: all 0.3s ease;
+    font-size: clamp(12px, 1.1vw, 16px);
+    font-weight: 550;
+    white-space: nowrap;
+}
+
+.nav-item.active {
+    background: white;
+    color: #263A8D;
+}
+
+.nav-item:hover {
+    background: #FAFAFA;
+    color: #263A8D;
+}
+
+.content-column {
+    background: white;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.05);
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#signals-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: 80vh;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+#map-container-column {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#map {
+    flex-grow: 1;
+    border-radius: 1rem;
+    height: 100%;
+}
+
+.marker-cluster-critical div { background-color: rgba(239, 68, 68, 0.8); }
+.marker-cluster-high-priority div {  background-color: rgba(245, 158, 11, 0.8); }
+.marker-cluster-routine div {  background-color: rgba(59, 130, 246, 0.8); }
+
+/* 3. Правим външния контейнер прозрачен и го използваме само за размер */
+.marker-cluster {
+    background-color: transparent;
+}
+
+/* 4. Казваме на вътрешния div да заеме 100% от родителя си и да центрира текста */
+.marker-cluster div {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    
+    /* Центриране на числото с flexbox */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Стил на текста */
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+
+/* 5. Премахваме старото позициониране на текста, тъй като flexbox се грижи за това */
+.marker-cluster span {
+    line-height: 1; /* Премахва нуждата от line-height, равен на височината */
+}
+/* НОВА ПРОМЯНА: Стил за иконите в маркера */
+.custom-div-icon {
+    background: transparent;
+    border: none;
+}
+
+.marker-pin {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid white;
+    /* box-shadow: 0 2px 8px rgba(0,0,0,0.3); -- ПРЕМАХНАТО */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease-in-out; /* ДОБАВЕНО */
+}
+
+/* === ПРОМЯНА: Добавяме hover ефекта === */
+.marker-pin:hover,
+.custom-div-icon.marker-selected .marker-pin {
+    transform: scale(1.8); /* Уголемява маркера с % */
+    cursor: pointer;
+}
+
+/* === ПРОМЯНА: Премахваме сянката от иконата === */
+.marker-icon-svg {
+    width: 22px;
+    height: 22px;
+    /* filter: drop-shadow(0 1px 1px rgba(0,0,0,0.5)); -- ПРЕМАХНАТО */
+}
+
+.signal-card.card-selected {
+    background-color: #eff6ff; /* Светло син фон */
+    border-left-color: #3b82f6 !important; /* По-силен син бордър, който да презапише статуса */
+}
+
+/* Стил за резервния "!" символ */
+.marker-fallback-icon {
+    color: white;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+
+/* Анимациите вече се прилагат към нашия .marker-pin */
+.marker-pulse-critical .marker-pin {
+    animation: pulse-critical 2s infinite ease-out;
+}
+.marker-pulse-high-priority .marker-pin {
+    animation: pulse-high-priority 2.5s infinite ease-in-out;
+}
+
+/* 2. Когато родителят е hover-нат или избран, СПИРАМЕ анимацията на детето */
+.custom-div-icon:hover .marker-pin,
+.custom-div-icon.marker-selected .marker-pin {
+    animation: none;
+}
+
+.marker-located .marker-pin {
+    animation: locate-bounce 1s ease;
+}
+
+@keyframes pulse-critical {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.8); }
+    70% { transform: scale(1.1); box-shadow: 0 0 10px 15px rgba(239, 68, 68, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+@keyframes pulse-high-priority {
+    0% { box-shadow: 0 0 4px 4px rgba(245, 158, 11, 0.4); }
+    50% { box-shadow: 0 0 8px 8px rgba(245, 158, 11, 0.1); }
+    100% { box-shadow: 0 0 4px 4px rgba(245, 158, 11, 0.4); }
+}
+
+.marker-located .marker-circle {
+    animation: locate-bounce 1s ease;
+}
+
+@keyframes locate-bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0) scale(1); }
+    40% { transform: translateY(-25px) scale(1.1); }
+    60% { transform: translateY(-10px) scale(1.05); }
+}
+
+
+.signal-card {
+    transition: all 0.3s ease;
+    border-left: 4px solid;
+}
+
+.signal-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.signal-card.in_progress { border-left-color: #F59E0B; } 
+.signal-card.resolved { border-left-color: #10B981; }
+.signal-card.rejected { border-left-color: #EF4444; }
+
+.signal-status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-in_progress { background-color: #FEF3C7; color: #B45309; }
+.status-resolved { background-color: #D1FAE5; color: #047857; }
+.status-rejected { background-color: #FEE2E2; color: #B91C1C; }
+
+.map-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+#signals-container::-webkit-scrollbar { width: 8px; }
+#signals-container::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 4px; }
+#signals-container::-webkit-scrollbar-thumb { background-color: #c5c5c5; border-radius: 4px; }
+#signals-container::-webkit-scrollbar-thumb:hover { background-color: #a8a8a8; }
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 1rem;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 0.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    line-height: 0;
+}
+
+#modal-photo-img {
+    border-radius: 0.5rem;
+    display: block;
+    max-width: 100%;
+    max-height: calc(90vh - 1rem);
+    width: auto;
+    height: auto;
+}
+
+.modal-close-button {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #4b5563;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.modal-close-button:hover {
+    transform: scale(1.1);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.photo-thumb-container {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    z-index: 10;
+}
+
+@media (max-width: 1024px) {
+    .main-content-signals {
+        flex-direction: column;
+        max-width: 95vw;
+        gap: 1.5rem;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .content-column {
+        flex-basis: auto;
+        border-radius: 1.5rem;
+        padding: 1.5rem;
+        max-height: 45vh;
+        overflow: hidden;
+    }
+    
+    #signals-container {
+        min-height: auto;
+    }
+
+    #map-container-column {
+        min-height: 40vh;
+        max-height: 50vh;
+    }
+}
+
+@media (max-width: 950px) {
+    .header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+    }
+
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        width: 160px;
+        background: linear-gradient(to right, #2F377D, #262152);
+        position: absolute;
+        right: 0px;
+        top: 80px;
+        padding: 20px 0;
+        border-radius: 0 0 4px 4px;
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .hamburger {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+    }
+}
+@media (max-width: 768px) {
+    .chatbot-window {
+        bottom: 0; right: 0; left: 0; top: 0;
+        width: 100%; height: 100%;
+        max-width: 100%; max-height: 100%;
+        border-radius: 0;
+        transform: translateY(100%);
+    }
+    .chatbot-window.is-open {
+        transform: translateY(0);
+    }
+}
+
+/* Chatbot Styles */
+.floating-actions { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 1000; }
+.chatbot-iframe::-webkit-scrollbar { display: none; }
+.chatbot-iframe { -ms-overflow-style: none; scrollbar-width: none; }
+.chatbot-window { position: fixed; bottom: 6rem; right: 1.25rem; width: 90vw; max-width: 28rem; height: 70vh; max-height: 600px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); transform-origin: bottom right; transform: scale(0); transition: transform 0.3s ease-in-out; }
+.chatbot-window.is-open { transform: scale(1); }
+.hidden { display: none !important; }

@@ -1,0 +1,22 @@
+.tabs-container { border-bottom: 2px solid #e5e7eb; }
+        .tab-btn {
+            padding: 1rem 1.5rem; border: none; background: transparent; color: #6b7280;
+            font-weight: 600; position: relative; transition: color 0.3s ease;
+            border-radius: 10px 10px 0 0;
+        }
+        .tab-btn:hover { color: #111827; }
+        .tab-btn.active { color: #09A7E4; background-color: #f9fafb; }
+        .tab-btn.active::after {
+            content: ''; position: absolute; bottom: -2px; left: 0;
+            right: 0; height: 2px; background-color: #09A7E4;
+        }
+        .sortable-header { cursor: pointer; user-select: none; }
+        .sortable-header:hover { background-color: #f3f4f6; }
+        .sort-icon {
+            display: inline-block; width: 1em; height: 1em; margin-left: 0.5rem;
+            color: black; transition: color 0.2s, transform 0.2s; opacity: 0.5;
+        }
+        .sortable-header:hover .sort-icon { opacity: 1; }
+        .sort-icon.active { color: #09A7E4; opacity: 1; }
+        .sort-icon.desc { transform: rotate(180deg); }
+        #signals-table-body.loading { opacity: 0.3; transition: opacity 0.3s ease; }

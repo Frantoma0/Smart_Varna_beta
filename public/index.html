@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Varna - Гражданска платформа</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+</head>
+
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <img src="images/Header_Icon.svg" alt="Smart Varna">
+            </div>
+            <nav class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-item active">Подаване на сигнал</a>
+                <a href="Signals_History.html" class="nav-item">Проследяване на сигнал</a>
+                <a href="contacts.html" class="nav-item">Контакти</a>
+            </nav>
+        </div>
+        <div class="hamburger" id="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Left Section -->
+        <section class="left-section">
+            <div class="main-logo">
+                <img src="images/body_Icon.svg" alt="Smart Varna">
+            </div>
+            <h1 class="main-title">Подавай и следи граждански сигнали<br>за нередности само с няколко клика</h1>
+            <p class="main-subtitle">Твоят глас за по-добър град</p>
+        </section>
+
+        <!-- Right Section -->
+        <section class="right-section">
+            <div style="display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 1rem;">
+                <button type="button" id="backToStep1Btn" class="hidden" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding: 5px;">
+                    <img src="images/back.svg" alt="Назад" style="width: 28px; height: 28px;">
+                </button>
+                <h2 class="form-title" style="margin-bottom: 0;">Подаване на сигнал</h2>
+            </div>
+            
+            <!-- ОБНОВЕНИ ИНДИКАТОРИ С ID-та -->
+            <div class="step-indicator">
+                <div id="stepIndicator1" class="step active">1</div>
+                <div class="step-line"></div>
+                <div id="stepIndicator2" class="step">2</div>
+            </div>
+
+            <form id="signalForm">
+                <div id="step1">
+                    <div class="upload-area" id="dropzone">
+                        <div id="uploadIcon" class="upload-icon">
+                            <img src="images/body_plus.svg" alt="+">
+                        </div>
+                        <div id="uploadText" class="upload-text">Избери или провлачи снимка</div>
+                        <input id="photo" name="photo" type="file" accept="image/*,.heic,.heif" class="hidden">
+                        <img id="preview" class="absolute inset-0 w-full h-full object-cover rounded-xl hidden" />
+                        <div id="scanAnimation" class="hidden">
+                            <svg class="magnifying-glass" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="form-group" style="opacity: 0; position: absolute; top: 0; left: -9999px; z-index: -1;">
+                        <label for="website">Website</label>
+                        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                    </div>
+                    <!-- НОВ КОНТЕЙНЕР ЗА КАРТАТА -->
+                    <div id="inlineMapContainer" class="map-container hidden" style="height: 60vh; min-height: 200px; margin-bottom: 1rem;"></div>
+                    <button type="button" id="noPhotoButton" class="submit-btn">Нямам снимка</button>
+                </div>
+
+                <div id="step2" class="hidden">
+                    <div class="form-section">
+                        <label for="suggestedDescription" class="form-label">Описание на проблема</label>
+                        <textarea id="suggestedDescription" name="description" rows="4" class="form-input"
+                            placeholder="Кратко описание на проблема"></textarea>
+                    </div>
+                    <div class="form-section">
+                        <label for="institutionSelect" class="form-label">Институция</label>
+                        <select id="institutionSelect" name="institution" class="form-input"></select>
+                    </div>
+                    <div class="form-section">
+                        <label for="finalAddress" class="form-label">Адрес на сигнала</label>
+                        <button type="button" id="detectLocationBtn" class="submit-btn hidden">Засечи сегашното</button>
+                        <input id="finalAddress" name="address" type="text" class="form-input"
+                            placeholder="Адрес на сигнала" />
+                        <!-- НОВО: Контейнер за предложенията -->
+                        <div id="addressSuggestions" class="address-suggestions-container hidden"></div>
+                    </div>
+
+                    <div class="form-section">
+                        <label for="email" class="form-label">Имейл (незадължително)</label>
+                        <input id="email" name="email" type="email" autocomplete="email" class="form-input"
+                            placeholder="example@email.com">
+                    </div>
+
+                    <div id="nearbySignalsContainer" class="hidden mt-4">
+                        <h3 class="form-label">Сигнали наблизо (30м. радиус):</h3>
+                        <div id="nearbySignalsList"
+                            class="space-y-2 max-h-40 overflow-y-auto p-2 bg-gray-100 rounded-lg"></div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Изпрати сигнал</button>
+                </div>
+
+                <input type="hidden" id="lat" name="lat">
+                <input type="hidden" id="lng" name="lng">
+                <input type="hidden" id="institution" name="institution">
+            </form>
+
+            <!-- Премахваме social-icons от тук -->
+
+        </section>
+    </main>
+
+    <!-- City Silhouettes -->
+    <div class="city-silhouette city-left">
+        <img src="images/Katedrala.svg" alt="Church">
+    </div>
+    <div class="city-silhouette city-right">
+        <img src="images/Panteona.svg" alt="Monument">
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModalOverlay" class="modal-overlay hidden">
+        <div id="successModalContent" class="modal-content">
+            <button id="closeModalButton" class="modal-close-button">&times;</button>
+            <svg class="w-16 h-16 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h2 class="text-2xl font-bold mt-4">Благодарим!</h2>
+            <p class="mt-2">Вашият сигнал е приет. Ето резюме:</p>
+            <div id="signalSummaryContainer" class="text-left mt-4 space-y-2">
+                <div>
+                    <span class="font-semibold">Код за проследяване:</span>
+                    <p id="token" class="text-lg font-mono font-bold"></p>
+                </div>
+                <div>
+                    <span class="font-semibold">Описание:</span>
+                    <p id="signalDescriptionSummary" class="text-sm"></p>
+                </div>
+                <div>
+                    <span class="font-semibold">Отговорна институция:</span>
+                    <p id="signalInstitutionSummary" class="text-sm"></p>
+                </div>
+                <div id="successMapContainer" class="mt-4 hidden">
+                    <h4 class="font-semibold text-left mb-2">Локация на сигнала:</h4>
+                    <div id="successMap" style="height: 200px; width: 100%; border-radius: 8px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-actions">
+
+        <!-- Бутон за отваряне на чата (с променени размери) -->
+        <button id="chatbot-toggle-btn"
+            class="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition transform hover:scale-110 w-16 h-16 flex items-center justify-center">
+            <img src="images/chatbot1.svg" alt="Чатбот" class="h-8 w-8">
+        </button>
+    </div>
+
+
+    <!-- ПРОМЯНА: HTML-ът на контейнера е изчистен от Tailwind класове за позициониране, които сега се управляват от CSS -->
+    <div id="chatbot-container" class="fixed bg-white z-[1000] chatbot-window">
+        <!-- Хедър на чат прозореца -->
+        <div class="flex justify-between items-center p-3 bg-blue-600 text-white rounded-t-lg">
+            <h3 class="font-bold text-lg">Смарти Асистент</h3>
+            <button id="chatbot-close-btn" class="p-1 hover:bg-blue-700 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <!-- Iframe, който зарежда чатбота -->
+        <iframe id="chatbot-iframe" src="./chatbot.html" class="w-full h-full border-0 chatbot-iframe"></iframe>
+    </div>
+    <!-- Map Modal -->
+    <div id="mapModalOverlay" class="modal-overlay hidden">
+        <div class="modal-content" style="width: 80vw; height: 80vh; padding: 1rem;">
+            <h3 class="map-title" style="margin-bottom: 1rem;">Потвърждаване на локация...</h3>
+            <div id="map-modal-container" style="width: 100%; height: 90%; border-radius: 1vw;"></div>
+        </div>
+    </div>
+
+    
+    
+
+    <!-- ====================================================== -->
+    <!-- ## КРАЙ НА КОДА ЗА ЧАТБОТ АСИСТЕНТА ## -->
+    <!-- ====================================================== -->
+
+    <script src="script.js"></script>
+
+    <!-- Скрипт за управление на чатбот асистента -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatbotToggleBtn = document.getElementById('chatbot-toggle-btn');
+            const chatbotContainer = document.getElementById('chatbot-container');
+            const chatbotCloseBtn = document.getElementById('chatbot-close-btn');
+            const floatingActions = document.querySelector('.floating-actions');
+
+            // ПРОМЯНА: Функциите вече добавят/премахват 'is-open' клас, вместо 'scale-0'
+            function openChatbot() {
+                chatbotContainer.classList.add('is-open');
+                floatingActions.classList.add('hidden'); // Скриваме групата с икони
+            }
+
+            function closeChatbot() {
+                chatbotContainer.classList.remove('is-open');
+                floatingActions.classList.remove('hidden'); // Показваме отново групата
+            }
+
+            chatbotToggleBtn.addEventListener('click', openChatbot);
+            chatbotCloseBtn.addEventListener('click', closeChatbot);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ Панел - Вход</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<!-- ПРОМЕНЯМЕ items-center на items-start, за да можем да контролираме отстоянието отгоре -->
+<body class="bg-gray-100 flex items-start justify-center h-screen p-4">
+    
+    <!-- УВЕЛИЧАВАМЕ ШИРИНАТА, ОТСТЪПИТЕ И ДОБАВЯМЕ МАРЖИН ОТГОРЕ -->
+    <div class="w-full max-w-xl bg-white rounded-xl shadow-lg p-12 mt-20">
+        
+        <div class="flex justify-center mb-8">
+            <img src="../images/body_icon2.svg" alt="Лого Smart Varna" class="w-56">
+        </div>
+        
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Вход - Админ Панел</h2>
+        
+        <form id="loginForm" class="space-y-6">
+            
+            <div>
+                <label for="username" class="block text-sm font-bold text-gray-600 mb-2">Потребителско име</label>
+                <input type="text" id="username" name="username" class="text-base shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#09A7E4]" required>
+            </div>
+            
+            <div>
+                <label for="password" class="block text-sm font-bold text-gray-600 mb-2">Парола</label>
+                <input type="password" id="password" name="password" class="text-base shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-[#09A7E4]" required>
+            </div>
+            
+            <div>
+                <button type="submit" class="w-full bg-[#09A7E4] hover:bg-[#078ac2] text-white text-base font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-200">
+                    Вход
+                </button>
+            </div>
+
+                    <!-- Ляв силует (Катедралата) с коригирани размери и позиция -->
+            <img src="../images/Katedrala2.svg" alt="Силует на Катедралата" class="fixed -bottom-0 left-0 z-0 h-80 hidden md:block align-bottom">
+            
+            <!-- Десен силует (Пантеона) с коригирани размери и позиция -->
+            <img src="../images/Panteona2.svg" alt="Силует на Пантеона" class="fixed -bottom-0 right-0 z-0 h-80 hidden md:block align-bottom">
+            
+            <p id="error-message" class="text-red-500 text-center !mt-6"></p>
+        </form>
+    </div>
+    <script src="./components/auth.js"></script>
+</body>
+</html>

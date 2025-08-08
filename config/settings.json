@@ -1,0 +1,8 @@
+{
+    "duplicateCheckRadiusMeters": 50,
+    "nearbySignalsRadiusMeters": 30,
+    "rateLimit": {
+      "daily": 50,
+      "hourly": 10
+    }
+  }

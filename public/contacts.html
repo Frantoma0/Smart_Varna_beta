@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакти - Smart Varna</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="contacts.css">
+</head>
+
+<body>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <img src="images/Header_Icon.svg" alt="Smart Varna">
+            </div>
+            <nav class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-item">Подаване на сигнал</a>
+                <a href="Signals_History.html" class="nav-item">Проследяване на сигнал</a>
+                <a href="#" class="nav-item active">Контакти</a>
+            </nav>
+        </div>
+        <div class="hamburger" id="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="contact-page-main">
+        <div class="contact-container">
+            <h1 class="contact-title">Контакти</h1>
+
+            <!-- Лява колона - Форма за контакт -->
+            <section class="contact-form-section">
+                <h2 class="contact-subtitle">Свържете се с нас</h2>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Име</label>
+                        <input id="name" name="name" type="text" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Имейл</label>
+                        <input id="email" name="email" type="email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message" class="form-label">Съобщение</label>
+                        <textarea id="message" name="message" rows="6" class="form-input" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Изпрати</button>
+                </form>
+            </section>
+
+            <!-- Дясна колона - Информация за контакт -->
+            <section class="contact-info-section">
+                <h2 class="contact-subtitle">Информация за контакт</h2>
+                <div class="contact-info-list">
+                    <div class="contact-info-item">
+                        <img src="images/address.svg" alt="Location" class="contact-info-icon">
+                        <div class="contact-info-text">
+                            <strong>Адрес</strong>
+                            <p>гр. Варна, бул.Сливница № 189, ет. 3, офис 1</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <img src="images/phone.svg" alt="Phone" class="contact-info-icon">
+                        <div class="contact-info-text">
+                            <strong>Телефон</strong>
+                            <p>+359 XX XXX XXX</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <img src="images/email.svg" alt="Email" class="contact-info-icon">
+                        <div class="contact-info-text">
+                            <strong>Имейл</strong>
+                            <p>smartcityloop@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ЛОГОТО Е ПРЕМЕСТЕНО ВЪТРЕ В СЕКЦИЯТА НА ДЯСНАТА КОЛОНА -->
+                <div class="contact-page-logo-container">
+                    <img src="images/body_Icon.svg" alt="Smart Varna Logo" class="contact-page-logo">
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- City Silhouettes -->
+    <div class="city-silhouette city-left">
+        <img src="images/Katedrala.svg" alt="Church">
+    </div>
+    <div class="city-silhouette city-right">
+        <img src="images/Panteona.svg" alt="Monument">
+    </div>
+
+    <script src="contacts_script.js"></script>
+
+    <div class="floating-actions">
+
+        <!-- Бутон за отваряне на чата (с променени размери) -->
+        <button id="chatbot-toggle-btn"
+            class="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition transform hover:scale-110 w-16 h-16 flex items-center justify-center">
+            <img src="images/chatbot1.svg" alt="Чатбот" class="h-8 w-8">
+        </button>
+    </div>
+
+
+    <!-- ПРОМЯНА: HTML-ът на контейнера е изчистен от Tailwind класове за позициониране, които сега се управляват от CSS -->
+    <div id="chatbot-container" class="fixed bg-white z-[1000] chatbot-window">
+        <!-- Хедър на чат прозореца -->
+        <div class="flex justify-between items-center p-3 bg-blue-600 text-white rounded-t-lg">
+            <h3 class="font-bold text-lg">Смарти Асистент</h3>
+            <button id="chatbot-close-btn" class="p-1 hover:bg-blue-700 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <!-- Iframe, който зарежда чатбота -->
+        <iframe id="chatbot-iframe" src="./chatbot.html" class="w-full h-full border-0 chatbot-iframe"></iframe>
+    </div>
+
+    <!-- ====================================================== -->
+    <!-- ## КРАЙ НА КОДА ЗА ЧАТБОТ АСИСТЕНТА ## -->
+    <!-- ====================================================== -->
+
+    <script src="contacts.js"></script>
+
+    <!-- Скрипт за управление на чатбот асистента -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatbotToggleBtn = document.getElementById('chatbot-toggle-btn');
+            const chatbotContainer = document.getElementById('chatbot-container');
+            const chatbotCloseBtn = document.getElementById('chatbot-close-btn');
+            const floatingActions = document.querySelector('.floating-actions');
+
+            // ПРОМЯНА: Функциите вече добавят/премахват 'is-open' клас, вместо 'scale-0'
+            function openChatbot() {
+                chatbotContainer.classList.add('is-open');
+                floatingActions.classList.add('hidden'); // Скриваме групата с икони
+            }
+
+            function closeChatbot() {
+                chatbotContainer.classList.remove('is-open');
+                floatingActions.classList.remove('hidden'); // Показваме отново групата
+            }
+
+            chatbotToggleBtn.addEventListener('click', openChatbot);
+            chatbotCloseBtn.addEventListener('click', closeChatbot);
+        });
+    </script>
+</body>
+
+</html>
