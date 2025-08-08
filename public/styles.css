@@ -873,7 +873,9 @@ body {
     }
 
     .form-title {
-        font-size: 28px;
+        font-size: clamp(1.2rem, 5.7vw, 1.6rem); /* Адаптивен размер на шрифта */
+        white-space: nowrap; /* Гарантира, че текстът винаги ще е на един ред */
+        margin-bottom: 0; /* Премахва долния отстъп, зададен от инлайн стила */
     }
 
     .main-title,
